@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<title>차BTI · 나랑 맞는 차 찾기</title>
+<!-- 카카오톡/SNS 공유 미리보기(썸네일) -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://chabti-comm.netlify.app/"/>
+<meta property="og:title" content="차BTI · 나랑 진짜 맞는 차는?"/>
+<meta property="og:description" content="성격 8문항으로 찾는 내 차 유형! 실제 차주 55만 명 데이터 기반 🚗 16가지 중 나는?"/>
+<meta property="og:image" content="https://chabti-comm.netlify.app/og.png?v=3"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:type" content="image/png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="차BTI · 나랑 진짜 맞는 차는?"/>
+<meta name="twitter:description" content="성격 8문항으로 찾는 내 차 유형! 실제 차주 55만 명 데이터 기반"/>
+<meta name="twitter:image" content="https://chabti-comm.netlify.app/og.png?v=3"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Black+Han+Sans&family=Jua&display=swap"/>
+<style>
+/* 눈누 - 지마켓 산스(가독성용) */
+@font-face{font-family:'GmarketSansMedium';src:url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');font-weight:normal;font-display:swap}
+@font-face{font-family:'GmarketSansBold';src:url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');font-weight:normal;font-display:swap}
+:root{--ink:#3b2740;--mut:#a584a5;--line:#f3dbe9;--pink:#FF4D9D;--pinkD:#D6347E;--grn:#A6E04E;--grnD:#5FA218;--bg:#FFF2F8;--hand:'Gaegu',Pretendard,sans-serif;--jua:'Jua',Pretendard,sans-serif;--ui:'GmarketSansMedium',Pretendard,sans-serif;--uiB:'GmarketSansBold',Pretendard,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#e7d3e2;font-family:Pretendard,system-ui,-apple-system,sans-serif;color:var(--ink)}
+.phone{max-width:420px;margin:0 auto;min-height:100vh;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.bar{padding:13px 18px;border-bottom:3px dashed #B5E66A;font-size:18px;font-weight:700;color:#D6347E;display:flex;align-items:center;gap:6px;background:#FFE6F2;font-family:var(--hand)}
+.bar svg{width:18px;height:18px}
+.app{flex:1;padding:22px 18px 34px}
+h1{font-size:30px;font-weight:700;margin:0;color:#33223e;font-family:var(--hand);line-height:1.25}
+.sub{color:var(--mut);font-size:14px}
+.badge{display:inline-block;font-size:16px;color:#3c6e0c;background:#D5F49A;padding:3px 14px;font-weight:700;border:2px solid #93C93B;font-family:var(--hand)}
+.cta{display:block;width:100%;padding:15px;border:none;background:var(--grn);color:#2f5208;font-size:21px;font-weight:700;cursor:pointer;font-family:var(--uiB);border-bottom:6px dashed var(--grnD)}
+.cta:active{transform:translateY(2px);filter:brightness(.97)}
+.opt{display:block;width:100%;text-align:center;padding:20px 16px;margin:13px 0;border:none;background:#FFD7E8;font-size:16px;font-weight:500;line-height:1.55;cursor:pointer;color:#7a2752;font-family:var(--ui);border-bottom:6px dashed #F083B4}
+.opt:active{transform:translateY(2px);background:#FFC6DF}
+.opt.g{background:#DCF2A6;color:#3c6310;border-bottom-color:#9FCB48}
+.opt.g:active{background:#CFEA8C}
+.gbtn{display:block;width:100%;padding:13px;border:none;background:#C7EE7E;font-size:17px;font-weight:700;color:#34600d;cursor:pointer;font-family:var(--uiB);margin-bottom:10px;border-bottom:5px dashed var(--grnD)}
+.gbtn:active{transform:translateY(2px);filter:brightness(.97)}
+.sec{font-size:22.4px;font-weight:700;color:#D6347E;margin:20px 0 9px;display:flex;align-items:center;gap:7px;font-family:var(--hand);line-height:1.25}
+.lcard{display:flex;gap:11px;align-items:center;border:2px solid #F4D6E6;background:#fff;padding:10px 11px;margin-bottom:8px}
+.lcard.rec{border-color:#A6E04E}
+.thumb{width:66px;height:50px;background:#f7e9f1;object-fit:cover;flex-shrink:0;border:none}
+.prog{display:flex;gap:4px;margin-bottom:20px}
+.prog i{flex:1;height:6px;background:#F3D9E8}
+.prog i.on{background:#8FC73F}
+.spin{width:38px;height:38px;border:5px solid #F6D9E8;border-top-color:var(--pink);border-radius:50%;animation:s .8s linear infinite;margin:60px auto 0}
+@keyframes s{to{transform:rotate(360deg)}}
+.fade{animation:f .35s ease}
+@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+@keyframes twk{0%,100%{opacity:.2;transform:scale(.6) rotate(-8deg)}50%{opacity:1;transform:scale(1.2) rotate(8deg)}}
+.twk{position:absolute;animation:twk 1.7s ease-in-out infinite;pointer-events:none;line-height:1}
+@keyframes pop{0%{transform:scale(.7);opacity:0}65%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .55s cubic-bezier(.2,.8,.3,1.3)}
+@keyframes flo{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.flo{animation:flo 2.4s ease-in-out infinite}
+/* 시작 버튼: 둥둥 떠있기 + 빛번짐 + 반짝 스윕 + 클릭 유도 */
+.ctawrap{animation:bob 1.73s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.cta.glowcta{position:relative;overflow:hidden;box-shadow:0 12px 24px rgba(95,162,24,.40);animation:glow 1.8s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 9px 18px rgba(95,162,24,.30)}50%{box-shadow:0 18px 32px rgba(95,162,24,.58)}}
+.cta.glowcta::after{content:"";position:absolute;top:0;left:-75%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg);animation:shine 2.6s ease-in-out infinite;pointer-events:none}
+@keyframes shine{0%{left:-75%}45%,100%{left:150%}}
+.cta.glowcta:hover{filter:brightness(1.04)}
+.taphint{text-align:center;font-size:13px;color:var(--grnD);font-weight:700;font-family:var(--jua);margin-top:10px;animation:bob 1.5s ease-in-out infinite}
+/* 결과 히어로 인터랙티브 */
+.heroCard{animation:pop .55s ease,flo 2.4s ease-in-out .55s infinite}
+.namepop{display:inline-block;animation:namebounce .6s .1s ease both}
+@keyframes namebounce{0%{transform:scale(.55);opacity:0}55%{transform:scale(1.13)}75%{transform:scale(.97)}100%{transform:scale(1);opacity:1}}
+.statstrip{display:flex;gap:7px;margin:15px 0 4px}
+.stat{flex:1;text-align:center;background:#fff;border:2px solid #F3D9E8;border-radius:13px;padding:9px 4px;opacity:0;animation:popb .5s ease forwards}
+.statTop{font-size:11px;color:#a584a5;font-weight:700;margin-bottom:3px;font-family:var(--jua);white-space:nowrap}
+.statVal{font-size:13px;font-weight:700;color:#D6347E;font-family:var(--jua);line-height:1.2}
+@keyframes popb{0%{opacity:0;transform:translateY(11px) scale(.9)}70%{transform:translateY(-2px) scale(1.03)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes burst{0%{transform:translate(-50%,-50%) scale(.3);opacity:1}100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1.1) rotate(var(--rt));opacity:0}}
+.conf{position:fixed;top:42%;left:50%;pointer-events:none;animation:burst .95s ease-out forwards;z-index:60}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="bar"><svg viewBox="0 0 24 24" fill="none" stroke="#E59A1E" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span onclick="track('click',{text:'상단_로고'});landing()" style="cursor:pointer;font-size:19.8px"> 차BTI</span><button onclick="track('click',{text:'상단_다시하기'});start()" style="margin-left:auto;font-size:14.4px;font-weight:500;color:#888780;background:none;border:none;cursor:pointer;font-family:inherit">↺ 다시하기</button></div>
+  <div class="app" id="app"></div>
+</div>
+<script>
+const QUESTIONS=[
+ {q:"주말 아침, 갑자기 하루가 통으로 비었다. 차 키 들고 드는 생각은?",a:["00이 태워서 가고 싶다고 했던 데 다녀와야겠다~","F",2],b:["일단 혼자 시원하게 달리고 와야겠다.","D",2]},
+ {q:"차에 쓸 돈이 생겼다. 솔직한 본심은?",a:["같은 값이면 한 푼이라도 알뜰하게, 깡통이어도 실속","V",2],b:["좀 무리해도 엠블럼이랑 옵션은 못 버려","B",2]},
+ {q:"전기차·신기술 얘기가 나오면 너는?",a:["검증된 게 진리. 잔고장 없고 정비소 많아야지","S",2],b:["새 거 나오면 일단 궁금. 신문물은 먼저 타봐야","N",2]},
+ {q:"신호 대기 중, 옆 차로에 나랑 완전 똑같은 차가 섰다. 기분은?",a:["뭐 어때, 많이들 타는 덴 다 이유가 있지","M",2],b:["…솔직히 좀 김 샌다. 남들이랑 같은 건 별로","R",2]},
+ {q:"내 차 트렁크엔 주로 뭐가 있나?",a:["유모차·캠핑짐·골프백… 늘 뭔가 실려 있음","F",1],b:["거의 비어 있거나 딱 내 취미 장비 하나","D",1]},
+ {q:"남이 내 차 보고 이 말 해주면 더 기분 좋다.",a:["이걸 그 값에 샀다고? 진짜 잘 샀네","V",1],b:["차 좋다~ 역시 보는 눈 있네","B",1]},
+ {q:"폰·가전 새 모델이 나오면 나는?",a:["평 좋아지고 가격 안정되면 그때 산다","S",1],b:["신상은 일단 질러야 직성이 풀린다","N",1]},
+ {q:"최종 후보 두 대, 가격·조건이 똑같다. 손이 가는 쪽은?",a:["많이 팔려서 시세·정비 걱정 없는 안심템","M",1],b:["흔치 않아서 괜히 눈길 한 번 더 가는 매물","R",1]}
+];
+const T={
+ FVSM:{n:"국민 가장",t:"많이 타는 덴 다 이유가 있지",s:"재미는 없지만 식구들이 제일 신뢰하는 남자",g:["쏘나타","싼타페","스포티지"],b:"디스커버리 스포츠",q:"모든 게 무난하지만, 딱히 특출나지도 않음",c:{blk:"green",body:"sedan",outfit:"#E8E6DF",glasses:"none",head:false,expr:"smile"}},
+ FVSR:{n:"숨은 대형 헌터",t:"남들 모르는 가성비 대형",s:"이 차의 진가, 알아주는 건 너 하나뿐",g:["맥스크루즈","렉스턴","캡티바"],b:"모델Y",q:"가족과 함께하기엔 더할 나위 없다, 다만 혼자 출퇴근엔 차가 크다",c:{blk:"green",body:"suv",outfit:"#6E7B52",glasses:"none",head:false,expr:"happy"}},
+ FVNM:{n:"실속 얼리어답터",t:"신상 보되 결국 실용",s:"옵션표 밤새 정독하고 결국 제일 무난한 거 삼",g:["카니발","셀토스","투싼HEV"],b:"파나메라",q:"차 크기에 비해 운전도 좋고 실내 거주성은 최고",c:{blk:"green",body:"suv",outfit:"#CDBE97",glasses:"none",head:false,expr:"smile"}},
+ FVNR:{n:"가성비 개척자",t:"신문물인데 지갑은 지킨다",s:"남보다 먼저 신차 타는데, 비싼 건 또 못 삼",g:["토레스","EV6","트래버스"],b:"5시리즈",q:"차는 이쁘고 승차감도 괜찮고, 가격 대비 가성비는 훌륭",c:{blk:"green",body:"suv",outfit:"#7FA05A",glasses:"none",head:false,expr:"happy"}},
+ FBSM:{n:"검증된 회장님",t:"검증된 프리미엄만",s:"주차장에서 가장 어깨 펴는 부장님",g:["GV80","E클래스","팰리세이드"],b:"스팅어",q:"품질이 워낙 좋아 단점이 없다, 굳이 꼽자면 연비",c:{blk:"amber",body:"suv",outfit:"#C98A2E",glasses:"none",head:false,expr:"smug"}},
+ FBSR:{n:"정통 대장",t:"검증된 희소 SUV의 로망",s:"캠핑 한 번 가겠다고 풀옵션 SUV 지름",g:["디스커버리","익스플로러","레인지로버"],b:"모델3",q:"년식 좀 됐어도, 단점보다 장점이 많은 차",c:{blk:"amber",body:"suv",outfit:"#6B5B3E",glasses:"none",head:false,expr:"serious"}},
+ FBNM:{n:"프리미엄 트렌드세터",t:"신상 프리미엄 패밀리",s:"신상 패밀리는 다 내 거, 할부도 다 내 거",g:["팰리세이드(신형)","EV9","GV70"],b:"머스탱",q:"연비 빼고 단점 없는 팰리세이드입니다",c:{blk:"amber",body:"suv",outfit:"#D98C3A",glasses:"none",head:true,expr:"smile"}},
+ FBNR:{n:"장비병 끝판왕",t:"가족용이라 쓰고 내 로망이라 읽는다",s:"가족용이라 우기지만 사실 본인 로망",g:["디펜더","카이엔","EV9"],b:"아반떼",q:"넓은데 짧아서 시내주행 편하고, 무엇보다 유니크함",c:{blk:"amber",body:"suv",outfit:"#5A6B5A",glasses:"none",head:false,expr:"happy"}},
+ DVSM:{n:"가성비 드라이버",t:"알뜰한데 운전은 진심",s:"월급은 적은데 코너 도는 건 진심",g:["아반떼","K5","3시리즈"],b:"디펜더",q:"최고 판매량답게 부품 수급 잘 되고 수리비 저렴, 그랜저에 굴하지 않는 실내",c:{blk:"blue",body:"sedan",outfit:"#4A6FA5",glasses:"none",head:false,expr:"serious"}},
+ DVSR:{n:"추억의 낭만러",t:"감성에 돈 쓰는 사람",s:"감성에 돈 쓰고, 정비소에 더 씀",g:["머스탱","카마로","벨로스터"],b:"팰리세이드",q:"감성과 비례한 유류비ㅎㅎ… 그래도 우렁찬 배기음은 못 잃어",c:{blk:"blue",body:"sports",outfit:"#2E3138",glasses:"cool",head:false,expr:"cool"}},
+ DVNM:{n:"영리한 신상러",t:"신차를 제일 싸게",s:"남들 다 아는 신차를 제일 싸게 사는 기술자",g:["모델3","K5","아반떼 N라인"],b:"디스커버리",q:"좁은 것 빼면 단점은 단 1도 없어요",c:{blk:"blue",body:"sedan",outfit:"#5A7AA8",glasses:"none",head:false,expr:"smile"}},
+ DVNR:{n:"펀카 발굴러",t:"남들 안 보는 펀카만",s:"남들 안 쳐다보는 펀카만 골라 사는 청개구리",g:["스팅어","폴스타","미니"],b:"GV80",q:"국산차 같지 않은 외모에 스포츠 세단 이미지, 주행감도 좋다",c:{blk:"blue",body:"sports",outfit:"#3A6EA5",glasses:"none",head:false,expr:"wink"}},
+ DBSM:{n:"독삼사 정석",t:"엠블럼은 못 버려",s:"독삼사 엠블럼 없으면 잠이 안 옴",g:["5시리즈","E클래스","G70"],b:"토레스",q:"잘 나가고 잘 섬, 운전 재미 있고 가격 대비 가성비 좋은 외제차",c:{blk:"purple",body:"sedan",outfit:"#4A4496",glasses:"none",head:false,expr:"smug"}},
+ DBSR:{n:"슈퍼리치 코스프레",t:"조용한 프리미엄 희귀템",s:"겉은 사장님, 명세서는 60개월",g:["파나메라","마칸","콰트로포르테"],b:"카니발",q:"고급유에 연비 빼면 단점이 없다",c:{blk:"purple",body:"sports",outfit:"#26215C",glasses:"cool",head:false,expr:"smug"}},
+ DBNM:{n:"신기술 추종자",t:"최신 전동 프리미엄",s:"OTA 업데이트 뜨면 제일 신난 사람",g:["모델Y","GV60","모델3"],b:"맥스크루즈",q:"장점은 너무 많은 차. 단점은 딱 하나, 승차감이 스포티하다는 것",c:{blk:"purple",body:"suv",outfit:"#5A52B0",glasses:"none",head:false,expr:"sparkle"}},
+ DBNR:{n:"희소템 끝판왕",t:"남들과 같은 차는 안 산다",s:"남들과 같은 차? 그럴 거면 안 사",g:["디스커버리 스포츠","레인지로버 스포츠","카이엔"],b:"쏘나타",q:"정면에서 풍기는 아우라, 스포틱한 사나이 갬성… 다시 타도 랜드로버",c:{blk:"purple",body:"suv",outfit:"#3C3489",glasses:"low",head:false,expr:"smug"}}
+};
+const QUOTES={
+ FVSM:[["1. 연료비(lpg)도 저렴. 2. 연비는 고속도로를 70%이상 운행시 약 10~11km.",2020,39,"50대"],["여유로운 공간, 풍부한 옵션, 적당한 가격",2023,6,"40대"]],
+ FVSR:[["차량을 1년 정도 완벽하게 수리 세차 해서타고 다니나 지금 필요가 없어서 정리할려고 합니다.",2022,11,"30대"],["안락하고 무던하게 혼자서 차박하기 너무 좋습니다. 특히나 마음에 들던건 상상외로 잘나오는 연비입니다.",2020,53,"40대"]],
+ FVNM:[["아 레전드죠 부품 싸고 사람 마니태우고 100km 달릴때 rpm2000안쓰고 고속연비좋고 디자인도 깔끔",2023,5,"40대"],["패밀리카 혹은 여행을 좋아하신다면 너무 좋아요. 편의성과 넓은 실내로 답답함이 없어 좋아요.",2020,35,"50대"]],
+ FVNR:[["경쟁 라인업 없음 ( ev6,아이오닉5 대비 큼 ) 가성비 훌륭, LFP배터리로 화재위험없음 승차감 훌륭",2024,7,"30대"],["토레스는 역시 디자인이죠 힘 좋고 잘나가고 옵션 풍부하고 가성비 좋고 실내공간 넓고 ....",2022,22,"50대"]],
+ FBSM:[["질리지 않는 세련된 디자인과 승차감과 안정성이 무엇보더 좋았구요 여라 기능으로 인해 편리함은 덤이였습니다.",2020,40,"40대"],["여유로운 실내공간, 주행중에도 조용한 실내, 고급스런 실내 인테리어, 편안한 주행 너무 좋았습니다",2021,40,"40대"]],
+ FBSR:[["실내공간이 상당히 넓으며 승차감또한 단연 최고였습니다. 차박캠핑에도 특화가되어 있네요 패밀리카로 최고입니다",2021,26,"40대"],["여유로운 실내공간과 6기통만의 파워와 부드러움. 에어쇼바만의 안락한 승차감. 어딜가도 뒤지지않는 덩치",2024,10,"30대"]],
+ FBNM:[["큰 사이즈와 승차감이 엄청난 장점입니다. 제네시스, 외제차랑 비교해도 크게 불편하지 않아요!",2022,24,"30대"],["여유로운 실내공간, 정숙성, 3,800CC 6기통에 넘치는 힘이 달리는데는 전혀 부족함이 없습니다.",2022,16,"40대"]],
+ FBNR:[["너무 부드럽고 힘 좋아서 잘나가고 넓지만 짧아서 시내주행 편하고 뒷자리도 너무 넓고 유니크함.",2024,10,"30대"],["가족과 여행을 다니며 드는 생각이었는데 우리 가족을 보호해주고 있구나 라는 심적 안정감이 최상이었어요.",2022,22,"40대"]],
+ DVSM:[["최고판매량답게 부품수급이 잘됨 쉐보레에 비해 저렴한 수리비용 조용한편 세련된 외관 그랜져에 굴하지않는 실내성",2021,30,"30대"],["강력한 펀드라이빙과 비엠 벤츠등 고성능 차량과 견줄수있는 퍼포먼스 정말 안타보면 모르는 운동능력",2025,3,"40대"]],
+ DVSR:[["타 차량과 확연히 구분되는 포스 우렁찬 배기음 및 가변배기 시스템 생각보다 유연한 운동 성능",2020,35,"40대"],["자연흡기만이 줄 수 있는 감성과 머슬카의 힘, 그리고 오픈에어링을 통해 낭만적인 하루를 즐길 수 있습니다.",2019,54,"30대"]],
+ DVNM:[["이금액대에서 최고의 차 단점이 없는 차량",2024,2,"40대"],["전기차의 강점은 저렴한유지비및 뛰어난 가속력인것같습니다 오토파일럿은 정말 뛰어납니다 너무편했어요",2024,14,"40대"]],
+ DVNR:[["국산차 같지 않은 외모로 스포츠 세단의 이미지를 가지고 있습니다. 생각보다 주행감도 좋습니다.",2022,19,"40대"],["안락한 실내 시트 폴딩과 테일게이트로인해 실용성 출력부족한것없음 가격대비 옵션이좋음 가성비",2024,2,"30대"]],
+ DBSM:[["잘 나가고 잘 섬. 운전하는 재미가 있음. 연비부터 시작하여 가격대비 여러모로 가성비가 좋은 외제차.",2023,22,"30대"],["차량이 넓고 이쁘뻐요. 연비도 좋습니다. 시네주행 12-14정도 고속주행 16-18정도 나오는거같아오ㅡㅂ",2024,6,"40대"]],
+ DBSR:[["시원한 배기음 원하는 만큼의 배기음 지티에스의 풀옵션 적당한 하차감및 디자인 희소성",2022,15,"40대"],["운전하는것을 지겨워했는데 운전하는 즐거움이 있고 급가속시 느껴지는 중력 느낌에 스트레스가 풀렸습니다",2021,38,"50대"]],
+ DBNM:[["넓은 공간, 정숙성, 운전시 안정감 유지비가 거의 안들어가서 기름값에 비해 1/5정도인듯합니다.",2021,28,"40대"],["넘치는 가속감이 최고 매력입니다. 내연차로 이정도 가속김을 느끼려면 3억 이상은 줘야하지않을지요..",2022,11,"40대"]],
+ DBNR:[["정면에서 풍기는 아우라 스포틱한 사나이 갬성 묵직하고 두툼한 도어 불편없는 실내 다시 타도 랜드로버 스포츠",2022,30,"40대"],["뽑기를 잘해서인지 잔고장이 없음 잔고장 많다고했던 랜드로버라 걱정많이 했는데 너무 잘 뽑아서 보내기 아쉽네요",2019,52,"40대"]]
+};
+const BLK={green:{bg:"#EAF3DE",car:"#9CB87A",t:"#173404"},amber:{bg:"#FAEEDA",car:"#D8A24E",t:"#412402"},blue:{bg:"#E6F1FB",car:"#8BA8C8",t:"#042C53"},purple:{bg:"#EEEDFE",car:"#A79FD8",t:"#26215C"}};
+const PRICE={"쏘나타":[1890,21,3.2],"맥스크루즈":[1450,14,9.8],"카니발":[3250,22,4.1],"토레스":[2680,23,2.2],"GV80":[5280,21,3.8],"디스커버리":[3900,18,7.2],"팰리세이드(신형)":[3850,22,3.5],"디펜더":[8200,21,4.1],"아반떼":[1690,21,3.6],"머스탱":[3680,16,6.8],"모델3":[2890,21,4.5],"스팅어":[2750,19,5.8],"5시리즈":[3680,20,5.2],"파나메라":[7400,18,6.1],"모델Y":[3790,22,3.9],"디스커버리 스포츠":[3400,19,6.4]};
+
+const CARW={"쏘나타":"hyundai sonata","맥스크루즈":"hyundai grand santafe","카니발":"kia carnival","토레스":"ssangyong torres","GV80":"genesis gv80","디스커버리":"land rover discovery","팰리세이드":"hyundai palisade","팰리세이드(신형)":"hyundai palisade","디펜더":"land rover defender","아반떼":"hyundai elantra","머스탱":"ford mustang","모델3":"tesla model 3","스팅어":"kia stinger","5시리즈":"bmw 5 series","파나메라":"porsche panamera","모델Y":"tesla model y","디스커버리 스포츠":"land rover discovery sport"};
+const CARSAMPLES=["data:image/webp;base64,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","data:image/webp;base64,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","data:image/webp;base64,UklGRqQTAABXRUJQVlA4IJgTAADwYQCdASosAccAPnk4mEmkoyImpHPKuNAPCWkA1P5IYYwmh++8R/Pn769zOa58x4Hfcn+J57+APx21DvYH+v9JOKJzf+0/63qO+4v2n/rerBNxyAO+78Lz1L2APJ//wfKF9Xf/D3Eekb6OhVcGtDh26x5lKL9G94Mw79EOHh1j914iUYvsnEimiLOhUs7tAjBTOQLeKaaqL76RE2xwIc2ncvXwsdoIT8BwfatGqygRIMuBWYk9YsQLXSTq1cV9HYywXwr/284AOpQuRhLq2ad2pOES9g3hfE7w1YAWJaexSeMAZJc+egqHuqN5cP5NQW0IM+iKIe4fPFfsFaw7WvvLyxq1pI3JKN38XalLbtDj/0tO895Xl7aquhTFk6rZtIjOjQfQPp8qbJBoOXK/2B2wQQ7xKpjzWag5VZ71B0/b/d4xVB9C/QGgqKughi5YXmaiyF9f3nN83byt58/UhgDdslFMq+E66Lbf/rArBasbhSr4v/sghjwPrBGj36lbbx8VUhdcO1Wa/2r/5091KtMsIpH5y5K30L0Mvls46/ADcd0HcaPB0ovU0sdjYHYx+2GjXT2sAt0Lq7NYQ6+ISIod0w5ZKodMF1N3krtEe+2rh1FypJY4eIwCqqf0vG+jtBnZyRF0UrTUfap1X7hZbnttYg/eskihoQM5XwsETI1fGnSmGfkKsFBmlToJ9IYLYmyddf3cCHfdcWy4X5zeiGjaYntrFpB26O8b89H/upXegTtVd0WDoenvvocOoUYQ4NdNaMy1350IGITXSljFbRQIoEktqCD1tQNV31kJbTGbf/C0ONypuf+dWXVJSJvzeYuRyGiB6bnGB25oXUou69hkZ1VnBR/ocM54l/8OVuugJ1EspRD5eGs4BO9rgwVJ2RM/JWBULLhZMMoPtAe6agEUduUCxQGchb7q8W8s0wpGzjVpIN7U7U/2ibxxsmvvEYGIFRiPyMFEJDaCzGAFnDq6GKInqb9Um9KNvPMrKsq0dGFFVhi/dvLJ/z6YPElWSxS9Kl0Vdxd2shL07JnF8cTi70Lxs+W90AAA/vbSAHJfs2RwJYiieLbBR9A1yWVVumj9sveY4D/yINmAHwgb0my+VI1TS1NX+al1ZOiATpFIRZm+MAYHR4lg54I0L+k6DiQLDWoo53149aWtQ2kFfh8l3mgcN2enXeSe2ylswNqerZMwGmEXbMhSYUfufkY5NeoF8SMHCoJC8FYGHAagFjOMVqRAATACmwfKktLyzck92nuq+YAPDOVn48lISXFPWvmujuzHZB9/g6P+BIEaFfycOoL91ASQvFGGykLjORCnQThZP+b12/AxH1LGuYzSM70UNij0VpVzav0/Be9HPYRVRazAdWm35Sl/domNF/V+Hd+dHJGeILTBLufFApdVBAXLo013knrLQxMsFYye/sEbag08UAg5ybBN1fFTYEhybwwH9AhYG+e0tA2zrjrrq8fEMoe/ykP87ltcQQivXHmVoWLd0+1O8Q9DlMLMUUVzla0cdYns95xnHvZjv1cH+tPQ7EGC+vEUXapIA55RrJpsJoKOj7Ef+4OUPi9nQrbi5y+990cTaI2RrwA5f43b9xElj5FWgnJirg9j7ErPzeJkYhdicUXAL/wjLY55G3VWcxZGVpKgvKyKo8pTObGqRht9KbYzlRo4vFkoP11QjkxE8SE7Dd1a276/KRVI/PzhLgvhE8MA9s2MJVyN1BCKWmy4CsEmODEIqYsVak0mW5RhmFJp/K6HNPkFu9Q7U8h0TWfcWyFu1nhEt4zVBXeMeg+bxLFAIO/sw7WYb5cGQWJrq7fkJlMzr+aJlN2Bzw8QF+kmV/AEkEO4Snw4Xbj+HMERHjJ6dYZNy14Y/VLmYIYueWSl4FZ3js2Q/fmwkPnUVrXDvivnXI6XTLWJMnIgzO7tnn58S7rI/fvcGEECgKZcx0Ut6+OaAXSAKbCih7bMLrLFu4E0F90zGytHYg0jq49WaAJe4drSEYS3dj3Ko36bBUdKXvwCxKIhSk/G9tTsYp96knY3y+7tk1BnefYu+slxY3box0sGYQbRz2jkkXuAEk4vV7TKjRlY4TQR69ezdqTjYl63UyTJnR/1YFivEilx4CsQVUdku1X7FiiDgXp7fD+MeNwUyCmeMQo0Ddt+mvMv6NdMDHovDCzzPg5ydgHsnF88RrfxYL8+J8qlcXkyccGfDVEt6DxwsvU/yj29pZdp6aQc+Ph4GsPqQzq4aYS9vYRGniVBGMl5hqabDaLjaynfZz5yR4CFA58mMUqWxM7xBJFzXdHbIvN0EJFwPC54hh/ujr0iMyVBDzqjWohtM9wHHvg84wQuHusZ2x6ZY04PQcra+J7n0v/a9amV2UN2vwi5Iz+au5/dvbaSgHGPCkH+IN6uByNcPSTDetKbwQAcf9bDsYatAD+QkyVoKNf767oU2YSgz75c46+m/wQPfy1BkX60SQDc5ArpiaRSzxh9BByTul0+8qvf/hebgjomP6aaxmgBsZZP6hSitIu0guzz8GQzcBW+C/3Hh2li/bnReyY1vmGKd+nRVkCOolGGWqwHLNp+r1beV5iYnOXf4Z4AjMR96qIbI5SNoWk7UlXoSFwMMlkCdAXRP3y0uxFQ223PRxuf5hEDubDSmIhn3KdCGRhcvP9fEMjgzFavOO6MwBdbRpZ6J0PjnvIzUUhl9gcZsWWjMLZROqYkiBBtfmV0h7l5dswv8SQHIBolVG3fZE4oTjzlMagRMf+lTD4GE/8RKl7Fco2jK/EkyYhONaq597jWSfvEc/E3fWSjUG+Y4NkFO60RfSy39ucxy1AA+yM55k9n/lfmQqaLWarV9e1Q8ee1OreL2I5FJP/yxbBEuopZGnGBUmGE5Z4qlc4MHVhdWzLkJ2wf+H50gXlE7TH+7qm2rclUJSO9P+4RA3k9UzzSooE6vtSQ4IirBfav9FY5iqpOcKUom+n41gZAI2C0kXBcg7/gjEA5SLM/dPxBhwUindcgu9caKVvil2hGMYsoybqTuJTdG9E/9gNTfnNDq/r3Clz2AKWms9qsh25wRFkUN+V8hNsvL8770A0m3tcPsA319D4WDlaaqxTiDW4avoSHrd9OOIHloe5an9d9FpVGdsZuyC602e15X0UwvBomWZMHii4SmqqdAAFIjPKyEIZG+anX1B3ruRJM5aDnaaMFTYVmJNq4IsbEdZyrk6oZFaJ3YmHCCFaX/5nUbs+ElEs5nR5AdxBK84k50QpGTxzdhi1c9kng9SLRUu1B4cFkn00RyUxIoS/Qwh4CXYcR9t9VHoktJTVIO4qqeTwUdVG3bl7HeiJF/uTD7uYlOYNsC54JU7v5vknA8HFE137E7bCzcqzqbl2Q8P1Vr5eblTX9FGwkGEJyXXg4DdAepBUjmjmeblOnTHIbqkH61L3ZIa5P3/0lFvFkt1hQku3U6BGFCuWhRvUtMg7cqZt9AEUghowi7sxWKhVwlrzgHLThNW577sRKci877w4XqLCmm+5VV9svF/wSuy1r2jyteAoh6YnJkl9f21Lltzuzcfj4YE1cgp8FAiNnenaApdRc/EeT/Q1GJtAAuSyapF1LuinqOSIdq4zIt+H54oQm+XvMcvt2CfuZFDmn1082zDEl+XStsbz2LyDaaaH0O5oDhF0iSJkPLhhMlfdd/fHP4R0pxaV6N1AgoJxBM/eEDQLf15JzBsPN/Br788dSn5d1Ek3RhYRqiyTMlVbTK+4y8D7cO45eoZnlK4gfmj+ryf1ufQXOmx40luMlLmviT/0AfxiT7z09Ys5ttKrCW8Tk4TkKezar6eLhpAKMNmquQuoOhIwl5Er0lvGrvNx04wV31ImnfdUvyukXLA0L7gUpHHWRUle3kvXvd/6F/EnPdPU+Hyf0NQILo0DtoaeXOZN5FruEZsZqXgx/A1iwgAJUPYxNjg1Nd7cjqtuHZ1kxDtMsZk2vE3wrA2MydM0ZH21NJZqUG0IVB4Ofveb4JxfR6eNMLX7Xe5bm2w4o614XrcOVE6iupKZkgxS7GPPaqHiRiduwlQ+WPQ20Ws8Csp0fRff8cmuf17HQgXAkTEG3ZsLx9aUM0yaTieuzc8jHAo4ilUHFR4pOeLC7QB4j3eExG4d+blHWkR0DZJVDyPMrYf9d7Pqke7UC68qqAjz9nVETMcI/6ZLm9DItYSoEQPB4uMg+rlx6Sf1vALbxWComIm6A7k+dDr7tBgX536Jpg8w+8lv6ePH53z2d4WGPmS66lyh7+xIwt62+LR8USRQgjHIIcxPQMK0PojuZvR+0JcWO4jCkbb6GtjyT71F8dra//a/+2VeIuhglyJIjEicIyfhKxrcf4GS5Yp08tp4cEWVEOP9u778QpPALqzmH3hAQt5gxl1f58oRSSLo6P0IDVh6EWLjSzJAlwIHuoHEM055CYojLcvLEdRSvW9GTxjhwBNdXaEiDjS5hB66Pu8CAVUgNn3nEjnBetYcfQDYuRSM1MSjz8kXKVWpiDuSSce9MhBjlG3szRiODU266pww0f0Jb3sxw1YWTh5RC2AiPcZpCDFjNffn5LjiFUTjPuq99opQmPfHqDbShAXDbCbxMcc9nEE+F2o7gZ+XJ4J/2RiNvaV3cOCh03vvx48Kgzl4eLH5/eOXngttE4dxgd+AxzQRJe8+WlaEGm2yN7WTJEzwO61yI0YTTDeRpxjUFZtjyOu08fWtkERtsFnQTBtDNlMc1hkuS86oem9PfR22UzzbGrj0CoLiEZf9CPDiL4wcbCQ6s5aJZwk7bL+U7uA2lC4fI18AWnO8ok8wctv1loCGG7GvAkgMx+8cnEnuzrZ0NSQXumTMSXQw5D+ePxEKDIrpYUYs23SaAl1ym8PC2B99QILsyBDuYfqlECWTB4lENujKs+ATT8KyftA0zHPtwpClIGlfoe/jlvyi5eHMPyWmOheikRYfITmtNOiPNkxvUxwJjmZyZKAXT/VLV5S/bNQxx3MCY+dfbm8X0ppMNtZc9QD/GJBiHX1T4xPnPAMJJFP2PihoyGfwzCPagwPMK61KDCyqjDdZ+FM3FDZdItIEgseopgJvARsvsVxYVwSQXYRPVv353mVdcRWZFqPiBB/lCeMC9ZXyrmFkw9stTT/kNWAoOi1GkMKmP6j4Z5s4+94Xckxihb35KY3undjk3ToFF3kVT3Vw6rXo60QQu0GCSTbIWr9lIQOVXAnCEl0cfxTlncEm0tEanf/oxsBte7i1pHwXZkqK1V9KcaaggyA3XzbUl46dG/XEQFG1Vqt0u/kGzyee038wNs9zxh4x+Bdov5Qas4kMH2hjT2orSXPGb9iuhMaQTLp299/LU+RQ9ncJ1V12/rN+m4Oeyl6unO954PsuLl79lBfwgBrC3VZXuONXtLkXgkXEPeGfvMrV9Y6tUDzUatPrnfZ5/zMfAZSv0cjuaQSAcGhfJtzoJhswwrxER/32CRF95wptDz/ivqtFp+L6V4yAxl5VDY8pbfhajPBgkevJaK2vpi86tW9jUqWYq3tiY/ybp+tSHYt8A0Zvj3JANZBB/puJ6tUEcWJXjSiJwOVgEMBBPoVfel8luOEfTwddyMiIN7cvQb1pNP1eQ0bMfSqtby+ZEWj3HHg0ijwdGka2LfecTmS7BL8H2KS8u1UYNYlrPiC7o2g2t1ueR+RuJSkCSRQkkM5mACqMbeIGC2hTL3XJqSByuRWppZBDBP4idNvZuwAUTvsKszYmFRfpi9UzDzvsJeeWplhCta0rajxIn2/9ygl0MVLOtw9ZTb5ucxwduBNjWQ3KcShI/ST7K1haf9Mx2moZgDmc+B00cmuZo6YaMm6OZlKLhDTTfxiA7HLOhlSS3Fo/gOrCv2c6vvixR1y+O762SQXjEytMS41TNUH+NT1HAMuXtQ7xMT8MKiEhzja2Mg+a3Abm5aAe6qQdmsUbpoEYjaUAfZaXBXiBqX2HOYBdwBGWk2UkChLFRhAaNj7mKUuy4l/PWz82dyypyp6VpRUaW2AWV+FTBd8+lxNxLqCQzVFJbOBqtYOQD0Qxk9EXDWTAL1HFo7g/BTKRhEB+gdRxKjfOZoYKzEHUBnwNccISRXBFSosm/eTv5lXh5zgq85EIvGSredwgl1BVxCYCmrpxHntxjXdXrrbL3uj7IPOLZwFH9V1SmAGWmNh+YcsmFMDE1grj74c0RGLk+wSbeeEt57pnze+cgBf4ytVgjdRr6+XPp/vHnI+3bxcE2SjPTIeOlno3sRj+ZxvhG4skvlip+i9Hemg3mxnK/Acyk8BDXfykOfRj999VvjqULUFkAPkC0xO8zi9xJZUf4EpR8fF/7IQQx/GrLtoeU5GEudIjdRi7FHfVazoqvLFnP/Qp8I0aM12XYiKNoQueZVeMuPyKdurMQwcuRURWmyRtD6TsWRhCpOfA2BSdOx34iWrCSWv1WMRttCpcLzxAgiaCQjt8JcbpInTwDz4mU2I128MLvbL+Iqk9DIR6V9iQeKa5j0OkSypvhwmYT6+yYqzr8rBaLDyEWUU2MejycKZlnlF+6qFop5i96wgJ1vtbArEM5uY/Ul6caWpf3T/n3iQFc1pg77mn5mbUi4FFwuBJKtdk0xFhf3dynWCph3DKyjlyZpoZvu+2V+/+g8BUdZFu6myffLU6lRqghvC/fUpa65xT3Oupqs3T1hM+JzJSwTFkD1+QFC2xznd3YcAA="];
+function carImg(car){var n=1+Math.floor(Math.random()*3);var lbl=encodeURIComponent(CARW[car]||car);return '<img class="thumb" src="'+CARSAMPLES[Math.floor(Math.random()*CARSAMPLES.length)]+'" onerror="this.onerror=null;this.src=\'https://placehold.co/132x100/eeeeee/999999?text='+lbl+'\'" alt="'+car+' 외관 사진">';}
+function carSVG(body,col,bg){
+ let roofY=158,win="216,163 266,163 266,176 216,176";
+ if(body==="suv"){roofY=144;win="214,150 286,150 286,176 214,176";}
+ if(body==="sports"){roofY=164;win="214,168 264,166 268,178 214,178";}
+ let roof = body==="suv"
+   ? '<path d="M198,178 L206,'+roofY+' L290,'+roofY+' L298,178 Z" fill="'+col+'"/>'
+   : '<path d="M198,178 L212,'+roofY+' L274,'+roofY+' L292,178 Z" fill="'+col+'"/>';
+ return '<g stroke="#1c1c1c" stroke-width="3" stroke-linejoin="round">'
+  +'<ellipse cx="234" cy="210" rx="78" ry="9" fill="#00000012" stroke="none"/>'
+  +'<path d="M168,196 C166,182 176,176 190,176 L284,176 C296,176 300,184 300,196 L300,206 L168,206 Z" fill="'+col+'"/>'
+  +roof
+  +'<polygon points="'+win+'" fill="'+bg+'"/>'
+  +'<circle cx="198" cy="208" r="13" fill="#222"/><circle cx="198" cy="208" r="5" fill="'+col+'"/>'
+  +'<circle cx="282" cy="208" r="13" fill="#222"/><circle cx="282" cy="208" r="5" fill="'+col+'"/></g>';
+}
+function faceSVG(p){
+ const S='stroke="#181818" fill="none" stroke-linecap="round" ';
+ let h='';
+ if(p.glasses==="cool"){
+  h+='<path d="M112,136 L140,130 L141,147 L114,151 Z" fill="#191919"/><path d="M188,136 L160,130 L159,147 L186,151 Z" fill="#191919"/><path d="M141,136 L159,134" '+S+'stroke-width="3"/>';
+  h+='<path d="M114,124 q12,-6 24,-1" '+S+'stroke-width="4"/><path d="M162,123 q12,-6 24,1" '+S+'stroke-width="4"/>';
+  h+='<path d="M138,170 q14,8 28,-3" '+S+'stroke-width="4.5"/>';
+  return h;
+ }
+ if(p.glasses==="low"){
+  h+='<path d="M114,152 L140,148 L141,166 L116,168 Z" fill="#191919"/><path d="M186,152 L160,148 L159,166 L184,168 Z" fill="#191919"/><path d="M141,154 L159,152" '+S+'stroke-width="3"/>';
+  h+='<path d="M118,130 q12,-7 22,-2" '+S+'stroke-width="4.5"/><path d="M160,124 l24,4" '+S+'stroke-width="4.5"/>';
+  h+='<path d="M120,138 q10,-3 20,1" '+S+'stroke-width="3.5"/><circle cx="131" cy="143" r="3.4" fill="#181818"/>';
+  h+='<path d="M160,139 q10,-3 20,1" '+S+'stroke-width="3.5"/><circle cx="171" cy="143" r="3.4" fill="#181818"/>';
+  h+='<path d="M138,174 q14,7 28,-4" '+S+'stroke-width="4.5"/>';
+  return h;
+ }
+ const blush='<ellipse cx="118" cy="152" rx="7" ry="4.5" fill="#F0997B" opacity=".4"/><ellipse cx="182" cy="152" rx="7" ry="4.5" fill="#F0997B" opacity=".4"/>';
+ if(p.expr==="smile"){h+='<circle cx="132" cy="142" r="4.6" fill="#181818"/><circle cx="168" cy="142" r="4.6" fill="#181818"/><path d="M120,130 q11,-5 22,0" '+S+'stroke-width="3"/><path d="M158,130 q11,-5 22,0" '+S+'stroke-width="3"/><path d="M133,166 q17,13 34,0" '+S+'stroke-width="4"/>'+blush;}
+ else if(p.expr==="happy"){h+='<path d="M124,144 q8,-9 17,0" '+S+'stroke-width="4"/><path d="M159,144 q8,-9 17,0" '+S+'stroke-width="4"/><path d="M131,162 q19,17 38,0 q-19,7 -38,0 Z" fill="#fff" stroke="#181818" stroke-width="3.5"/>'+blush;}
+ else if(p.expr==="serious"){h+='<circle cx="132" cy="142" r="4.4" fill="#181818"/><circle cx="168" cy="142" r="4.4" fill="#181818"/><path d="M120,130 l22,3" '+S+'stroke-width="3.5"/><path d="M158,133 l22,-3" '+S+'stroke-width="3.5"/><path d="M136,170 l28,0" '+S+'stroke-width="4"/>';}
+ else if(p.expr==="wink"){h+='<path d="M124,144 q8,-8 17,-1" '+S+'stroke-width="4"/><circle cx="168" cy="142" r="4.6" fill="#181818"/><path d="M158,130 q11,-5 22,0" '+S+'stroke-width="3"/><path d="M136,168 q15,9 29,-4" '+S+'stroke-width="4.5"/>';}
+ else if(p.expr==="sparkle"){h+='<circle cx="132" cy="142" r="5" fill="#181818"/><circle cx="168" cy="142" r="5" fill="#181818"/><circle cx="129" cy="139" r="1.6" fill="#fff"/><circle cx="165" cy="139" r="1.6" fill="#fff"/><path d="M133,164 q17,14 34,0" '+S+'stroke-width="4"/><path d="M196,120 l3,6 6,2 -6,2 -3,6 -3,-6 -6,-2 6,-2 Z" fill="#FFD23F" stroke="#181818" stroke-width="2"/>';}
+ else if(p.expr==="smug"){h+='<path d="M118,128 q12,-8 22,-2" '+S+'stroke-width="4.5"/><path d="M160,132 l22,3" '+S+'stroke-width="4.5"/><path d="M120,140 q10,-3 20,1" '+S+'stroke-width="3.5"/><circle cx="131" cy="145" r="3.4" fill="#181818"/><path d="M160,141 q10,-3 20,1" '+S+'stroke-width="3.5"/><circle cx="171" cy="145" r="3.4" fill="#181818"/><path d="M138,170 q14,8 28,-4" '+S+'stroke-width="4.5"/>';}
+ return h;
+}
+const DEC={
+ FVSM:{chest:'family',item:'bag'},
+ FVSR:{chest:'mountain',hat:'bucket',hatc:'#6E7B52',item:'tumbler'},
+ FVNM:{chest:'clip'},
+ FVNR:{chest:'won',hat:'cap',hatc:'#639922'},
+ FBSM:{chest:'golf',item:'golf'},
+ FBSR:{chest:'tent',hat:'bucket',hatc:'#6B5B3E'},
+ FBNM:{chest:'phone'},
+ FBNR:{chest:'gear',item:'drone'},
+ DVSM:{chest:'wheel'},
+ DVSR:{chest:'flame'},
+ DVNM:{chest:'pct'},
+ DVNR:{chest:'star',hat:'beanie',hatc:'#534AB7'},
+ DBSM:{chest:'logos'},
+ DBSR:{chest:'dollar'},
+ DBNM:{chest:'bolt'},
+ DBNR:{chest:'diamond'}
+};
+function chestSVG(code){var k=(DEC[code]||{}).chest;if(!k)return '';
+ var I={
+  family:'<path d="M160,192 c-6,-5 -10,-8 -10,-12 a4,4 0 0 1 10,-2 a4,4 0 0 1 10,2 c0,4 -4,7 -10,12 z" fill="#E24B4A" stroke="none"/>',
+  mountain:'<path d="M149,191 l7,-12 4,5 3,-4 8,11 z" fill="#7C808A" stroke="#181818" stroke-width="1.2"/>',
+  clip:'<rect x="153" y="175" width="14" height="18" rx="2" fill="#fff" stroke="#181818" stroke-width="1.4"/><rect x="157" y="172" width="6" height="4" rx="1" fill="#888" stroke="none"/><path d="M156,181 h8 M156,185 h8 M156,189 h5" stroke="#181818" stroke-width="1.2" fill="none"/>',
+  won:'<text x="160" y="191" font-size="17" font-weight="700" text-anchor="middle" fill="#3B6D11">₩</text>',
+  golf:'<path d="M156,194 v-19" stroke="#181818" stroke-width="2"/><path d="M156,175 l11,3 -11,4 z" fill="#E24B4A" stroke="#181818" stroke-width="1.2"/>',
+  tent:'<path d="M148,192 l12,-17 12,17 z" fill="#639922" stroke="#181818" stroke-width="1.2"/><path d="M160,192 v-11" stroke="#181818" stroke-width="1.2"/>',
+  phone:'<rect x="153" y="174" width="14" height="20" rx="2.5" fill="#222" stroke="none"/><rect x="155" y="177" width="10" height="13" fill="#9FE1CB" stroke="none"/>',
+  gear:'<circle cx="160" cy="184" r="7" fill="none" stroke="#181818" stroke-width="2.5"/><circle cx="160" cy="184" r="2.5" fill="#181818" stroke="none"/><path d="M160,175 v-3 M160,196 v-3 M151,184 h-3 M172,184 h-3" stroke="#181818" stroke-width="2"/>',
+  wheel:'<circle cx="160" cy="184" r="8.5" fill="none" stroke="#181818" stroke-width="2.5"/><circle cx="160" cy="184" r="2" fill="#181818" stroke="none"/><path d="M160,184 h8.5 M160,184 l-6,6 M160,184 l-6,-6" stroke="#181818" stroke-width="2"/>',
+  flame:'<path d="M160,174 c5,6 7,9 7,13 a7,7 0 0 1 -14,0 c0,-3 2,-5 3.5,-7 c1,2.5 2.5,2.5 3.5,1 c0,-2.5 -1,-4 0,-7 z" fill="#D85A30" stroke="#181818" stroke-width="1.2"/>',
+  pct:'<text x="160" y="191" font-size="16" font-weight="700" text-anchor="middle" fill="#185FA5">%</text>',
+  star:'<path d="M160,174 l2.5,6 6.5,0.4 -5,4 1.7,6.4 -5.7,-3.4 -5.7,3.4 1.7,-6.4 -5,-4 6.5,-0.4 z" fill="#FFD23F" stroke="#181818" stroke-width="1.1"/>',
+  logos:'<circle cx="149" cy="184" r="5" fill="#fff" stroke="#181818" stroke-width="1.2"/><path d="M149,179 a5,5 0 0 1 0,10 z" fill="#378ADD" stroke="none"/><path d="M149,184 m-5,0 a5,5 0 0 1 5,-5 z" fill="#378ADD" stroke="none"/><circle cx="160" cy="184" r="5" fill="#fff" stroke="#181818" stroke-width="1.2"/><path d="M160,184 v-5 M160,184 l4,2.5 M160,184 l-4,2.5" stroke="#181818" stroke-width="1.2" fill="none"/><circle cx="169" cy="184" r="2.6" fill="none" stroke="#181818" stroke-width="1.2"/><circle cx="173" cy="184" r="2.6" fill="none" stroke="#181818" stroke-width="1.2"/>',
+  dollar:'<text x="160" y="191" font-size="17" font-weight="700" text-anchor="middle" fill="#3B6D11">$</text>',
+  bolt:'<path d="M163,173 l-9,14 6,0 -3,10 10,-15 -6,0 2,-9 z" fill="#FFD23F" stroke="#181818" stroke-width="1.2"/>',
+  diamond:'<path d="M152,179 h16 l4,5 -12,13 -12,-13 z" fill="#5DCAA5" stroke="#181818" stroke-width="1.2"/><path d="M152,179 l3,5 h10 l3,-5 M148,184 h24" stroke="#181818" stroke-width="1" fill="none"/>'
+ };
+ if(k==='logos')return '<rect x="139" y="173" width="42" height="22" rx="4" fill="#f7f5ef" stroke="#181818" stroke-width="2"/>'+I.logos;
+ return '<circle cx="160" cy="184" r="15" fill="#f7f5ef" stroke="#181818" stroke-width="2"/>'+(I[k]||'');
+}
+function hatSVG(code){var d=DEC[code]||{};if(!d.hat)return '';var c=d.hatc||'#444';var S=' stroke="#181818" stroke-width="4" stroke-linejoin="round"';
+ if(d.hat==='cap')return '<path d="M116,75 q44,-42 88,0 q-44,13 -88,0 z" fill="'+c+'"'+S+'/><path d="M116,75 q-24,1 -30,8 q26,5 34,-2 z" fill="'+c+'"'+S+'/>';
+ if(d.hat==='beanie')return '<path d="M114,75 q46,-40 92,0 z" fill="'+c+'"'+S+'/><rect x="112" y="71" width="96" height="9" rx="4" fill="'+c+'"'+S+'/>';
+ return '<path d="M118,72 q42,-30 84,0 z" fill="'+c+'"'+S+'/><path d="M102,72 q58,16 116,0 q-9,13 -18,15 q-40,8 -80,0 q-9,-2 -18,-15 z" fill="'+c+'"'+S+'/>';
+}
+function itemSVG(code){var k=(DEC[code]||{}).item;if(!k)return '';
+ if(k==='tumbler')return '<rect x="234" y="170" width="15" height="40" rx="5" fill="#5DCAA5" stroke="#181818" stroke-width="3"/><rect x="234" y="179" width="15" height="6" fill="#0F6E56" stroke="none"/>';
+ if(k==='golf')return '<path d="M250,148 l-16,82" stroke="#9a9ea6" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M232,228 q-5,5 1,9 l9,-4 z" fill="#888" stroke="#181818" stroke-width="2"/>';
+ if(k==='bag')return '<rect x="232" y="186" width="22" height="24" rx="2" fill="#E8E6DF" stroke="#181818" stroke-width="2.5"/><path d="M237,186 q6,-9 12,0" fill="none" stroke="#181818" stroke-width="2.5"/>';
+ return '<rect x="230" y="168" width="22" height="9" rx="3" fill="#333" stroke="#181818" stroke-width="2"/><circle cx="228" cy="166" r="7" fill="none" stroke="#181818" stroke-width="2.5"/><circle cx="254" cy="166" r="7" fill="none" stroke="#181818" stroke-width="2.5"/>';
+}
+function charSVG(code){
+ const p=T[code].c, blk=BLK[p.blk];
+ const head=p.head?'<path d="M92,138 Q160,98 228,138" stroke="#3a3633" stroke-width="9" fill="none"/><circle cx="88" cy="146" r="15" fill="#3a3633" stroke="#181818" stroke-width="4"/><circle cx="232" cy="146" r="15" fill="#3a3633" stroke="#181818" stroke-width="4"/>':'';
+ return '<svg viewBox="0 0 320 230" style="width:100%;display:block;background:'+blk.bg+'">'
+  +carSVG(p.body,blk.car,blk.bg)
+  +head
+  +'<g stroke="#181818" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round">'
+  +'<path d="M36,230 C30,168 64,138 160,138 C256,138 290,168 284,230 Z" fill="'+p.outfit+'"/>'
+  +'<path d="M134,150 C132,128 138,116 160,116 C182,116 188,128 186,150 Z" fill="#F2C39A"/>'
+  +'<path d="M160,60 C204,59 220,90 215,124 C211,160 190,180 160,179 C130,178 109,160 105,124 C100,90 119,61 160,60 Z" fill="#F2C39A"/>'
+  +'<path d="M105,126 C96,122 98,84 113,66 C112,84 125,86 129,72 C132,90 145,88 149,74 C153,91 164,89 168,75 C172,91 185,92 189,76 C193,92 206,88 208,73 C213,90 223,83 223,101 C230,83 227,126 215,124 C216,92 196,66 159,66 C119,66 108,92 105,126 Z" fill="#241F1B"/>'
+  +faceSVG(p)
+  +'</g><g stroke-linejoin="round" stroke-linecap="round">'+hatSVG(code)+itemSVG(code)+'</g></svg>';
+}
+
+const flipAll=c=>{const m={F:'D',D:'F',V:'B',B:'V',S:'N',N:'S',M:'R',R:'M'};return c.split('').map(x=>m[x]).join('')};
+const flip0=c=>(c[0]==='F'?'D':'F')+c.slice(1);
+function listings(car){const p=PRICE[car]||[2500,20,5.0];return [[car,p[0],p[1],p[2]],[car,Math.round(p[0]*0.93),p[1]-1,Math.round((p[2]+1.4)*10)/10]];}
+
+const app=document.getElementById('app');
+let i=0,ans=[];
+/* ===== 설문 집계(트래킹) — 구글 시트 연동 ===== */
+/* ↓↓↓ 여기에 구글 Apps Script 웹앱 URL을 붙여넣으세요 (가이드: 집계_설정가이드.md) */
+const TRACK_ENDPOINT="https://script.google.com/macros/s/AKfycbyr0fiFXfT_GqAeDnxlIWd_DbktJbB0dbXeHJSC6EnTNviokUsLgjfWvR3I_vsX8Qk8Lg/exec";
+var VISITOR_ID=(function(){try{var k='cbti_vid',v=localStorage.getItem(k);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(k,v);}return v;}catch(e){return 'nov_'+Math.random().toString(36).slice(2,8);}})();
+var SESSION_ID=Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);
+function track(event,data){
+ if(!TRACK_ENDPOINT)return;
+ try{
+  var payload={event:event,ts:new Date().toISOString(),visitor:VISITOR_ID,session:SESSION_ID,ref:document.referrer||'',ua:navigator.userAgent,url:location.href};
+  if(data)for(var k in data)payload[k]=data[k];
+  var body=JSON.stringify(payload);
+  if(navigator.sendBeacon){try{if(navigator.sendBeacon(TRACK_ENDPOINT,new Blob([body],{type:'text/plain;charset=UTF-8'})))return;}catch(e){}}
+  fetch(TRACK_ENDPOINT,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:body}).catch(function(){});
+ }catch(e){}
+}
+track('view'); /* 페이지 접속 기록 */
+function confetti(n){n=n||16;var em=['🎉','✨','🎊','⭐','💫','💖','💚','🩷','🌈'];for(var i=0;i<n;i++){(function(){var s=document.createElement('span');s.className='conf';s.textContent=em[Math.floor(Math.random()*em.length)];var a=Math.random()*6.283,d=70+Math.random()*150;s.style.setProperty('--tx',(Math.cos(a)*d)+'px');s.style.setProperty('--ty',(Math.sin(a)*d-30)+'px');s.style.setProperty('--rt',(Math.random()*420-210)+'deg');s.style.fontSize=(14+Math.random()*13)+'px';s.style.animationDelay=(Math.random()*0.12)+'s';document.body.appendChild(s);setTimeout(function(){s.remove();},1050);})();}}
+function landing(){
+ app.className='app fade';
+ app.innerHTML='<div style="position:relative;background:linear-gradient(160deg,#FF7BC0 0%,#FF4D9D 58%,#9BD93B 140%);margin:-22px -18px 0;padding:26px 16px 36px;text-align:center;overflow:hidden">'
+  +'<span class="twk" style="top:12px;left:16px;font-size:24px">🎉</span><span class="twk" style="top:16px;right:18px;font-size:22px;animation-delay:.5s">⭐</span><span class="twk" style="bottom:92px;left:20px;font-size:20px;animation-delay:.9s">💫</span><span class="twk" style="bottom:78px;right:22px;font-size:22px;animation-delay:1.3s">✨</span><span class="twk" style="top:84px;right:42px;font-size:16px;animation-delay:.7s">🌈</span>'
+  +'<div class="pop" style="display:inline-block;background:#fff;border:3px solid #2b2620;border-radius:26px;padding:7px 22px;font-size:27px;color:#E63A8C;box-shadow:3px 4px 0 rgba(0,0,0,.18);font-family:var(--hand);font-weight:700">🚗 차BTI 성격 테스트</div>'
+  +'<div style="margin-top:13px;font-size:14px;color:#fff;font-weight:700;text-shadow:1px 1px 0 rgba(0,0,0,.22)">성격 8문항으로 찾는, 나랑 진짜 맞는 차</div>'
+  +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:18px">'+['FVSR','FBSM','DVNR','DBNR'].map(function(k){return '<div><div style="border:2px solid #fff;overflow:hidden;background:#fff">'+charSVG(k)+'</div><div style="font-size:12px;color:#fff;font-weight:700;margin-top:4px;text-shadow:1px 1px 0 rgba(0,0,0,.3);font-family:var(--jua);line-height:1.12">'+T[k].n+'</div></div>';}).join('')+'</div>'
+  +'<div style="text-align:right;margin-top:9px;font-size:11px;color:rgba(255,255,255,.55);font-weight:500;font-family:var(--jua)">총 16가지 유형</div>'
+  +'</div>'
+  +'<div style="text-align:center;margin:24px 0 22px"><span class="badge">📊 실제 차주 55만 명 데이터 기반</span></div>'
+  +'<div class="ctawrap" style="display:flex;gap:9px;align-items:stretch">'
+  +'<button class="cta glowcta" style="flex:1" onclick="start()">🚗 테스트 시작하기 →</button>'
+  +'<button onclick="shareInvite()" aria-label="공유하기" style="flex-shrink:0;width:62px;border:none;background:#FF85B8;color:#7a2752;font-family:var(--uiB);font-weight:700;cursor:pointer;border-bottom:6px dashed #D6347E;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.05"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4V15"/><path d="M8 8l4-4 4 4"/><path d="M8 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-2"/></svg><span style="font-size:12px">공유</span></button>'
+  +'</div>'
+  +'<p class="sub" style="text-align:center;font-size:12px;margin:12px 0 0">이미 12,840명이 자기 차BTI를 찾았어요</p>';
+}
+function start(){i=0;ans=[];track('start');confetti(20);question();}
+function question(){
+ app.className='app fade';
+ var x=QUESTIONS[i];
+ var pr='<div class="prog">';for(var k=0;k<8;k++)pr+='<i class="'+(k<=i?'on':'')+'"></i>';pr+='</div>';
+ app.innerHTML=pr
+ +'<p style="text-align:center;font-size:16px;font-weight:700;color:var(--pink);margin:0 0 4px;font-family:var(--hand)">Q'+(i+1)+' / 8</p>'
+ +'<h1 style="font-size:19px;line-height:1.55;margin:0 0 4px;text-align:center;font-family:var(--ui);font-weight:500">'+x.q+'</h1>'
+ +'<div style="text-align:center;font-size:22px;margin:2px 0 4px">✨</div>'
+ +'<button class="opt'+(i%2?' g':'')+'" onclick="pick(\'a\')">'+x.a[0]+'</button>'
+ +'<button class="opt'+(i%2?'':' g')+'" onclick="pick(\'b\')">'+x.b[0]+'</button>';
+}
+function pick(k){var qi=i,o=QUESTIONS[qi][k];track('answer',{q:qi+1,choice:k,axis:o[1],text:o[0]});confetti(10);ans.push(k);i++;i<8?question():loading();}
+function loading(){app.className='app';app.innerHTML='<div style="text-align:center;padding:50px 0"><div class="flo" style="font-size:44px">🚗</div><div class="spin"></div><p style="margin-top:18px;font-size:20px;font-weight:700;color:#D6347E;font-family:var(--hand)">너의 차BTI를 분석 중…</p></div>';var _c=score();track('complete',{code:_c,name:(T[_c]||{}).n||'',answers:ans.slice()});confetti(18);setTimeout(result,1150);}
+const CARDB={
+ "스파크":{n:"스파크",b:"쉐보레",pr:650,y:2019,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/19/a1da9176-388a-4cfa-9d30-5c123d602535.jpeg",r:"차량을 끌고 나갈때 주차걱정을 안한다는점?... 이 작디작은 붕붕이 하나 주차자리 없겠냐며 끌고 다니는!",c:"경차 배기량이 있다 보니 오르막에서 힘이 약하고 저속에서 추월 할 때 가속이 충분히 되지 않는 점이 불편…"},
+ "모닝":{n:"모닝",b:"기아",pr:700,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/e9896713-3ce3-40f3-8452-e6c5f23d7b06.jpeg",r:"1. 여유로운 주차 (공간만 있으면 넣으면됨) 2. 비용 할인 3. 연비 절감 4. 연세 부담 없음 5. 부끄러움을 극복하면 최강차량임",c:"아직까진 불편한점이 없고 수리할것도없습니다.다만 타이어 교체시기가 되어 주행거리가 짦으니 내년 여름쯤 바꿔주면 된다고 정비소에서…"},
+ "레이":{n:"레이",b:"기아",pr:1150,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/81b341fe-abc7-44c5-a699-652d8bfc90c1.jpeg",r:"경차이지만 전혀 경차라 볼 수 없는 매력 과 동시에 너무 실용적이고 그냥 모든 장점이 다 들어 있는 차량",c:"경차 특성상 문제이긴 하지만 바람 많이 불때나 옆에 화물 차량 지나가면 휘청 하고 무섭…"},
+ "캐스퍼":{n:"캐스퍼",b:"현대",pr:1350,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/10/2891daf8-4d8b-42eb-8949-0a0c94ab22bb.jpeg",r:"-시내주행 평범한 구간에는 별무리없이 잘 나갑니다(오르막에서 지나진 RPM) -좁은 골목에서 기가막히게 잘~ 빠져나갑니다",c:"커피홀더 부분이 작아서 조금 불편해요.(경차라서 그런거라 어쩔 수 없지만요 ) 뒷자리는 오래 타기…"},
+ "베뉴":{n:"베뉴",b:"현대",pr:1500,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/07/d6ca02be-35b7-4bfe-aab1-630bb2e90f85.jpeg",r:"2-3 명편하게 타기좋아요 디자인도 이쁘고 차량도 경차보다 사이즈커서 작다는 느낌을 못받았어요",c:"미션고장, 고속도로에서 소음이 조금 있었던거 같습니…"},
+ "티볼리":{n:"티볼리",b:"KG모빌리티",pr:1500,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/16/1756cc37-78a3-450c-9b91-adccef9cd855.jpeg",r:"2천 씨씨 대의 차들과 견주어도 손색없는 공간감, 충분히 만족스러운 힘, 에어컨 시원한바람 빨리나옴,",c:"디젤이다보니 가솔린차량보다 엔진소음은 조금 있는 편입니다. 이 외에는 크게 불편하거나 단점은 없었…"},
+ "맥스크루즈":{n:"맥스크루즈",b:"현대",pr:1500,y:2018,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/12/22/ca65a5df-32a2-48c1-82b4-767948600e2a.jpeg",r:"광활한 파노라마 선루프, 3열 시트까지 6~7명 이동 가능, 요소수 관리 필요 없는 디젤 모델, 당근 마켓이용시 최고!",c:"가족과 함께하기엔 더할나위 없지만, 일반 출퇴근용도로는 차가 큽…"},
+ "K3":{n:"K3",b:"기아",pr:1550,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/10/cc0c3224-c349-4cae-b237-16af9f3e1b20.jpeg",r:"준중형 차량인데 실내 공간 넓직하고 좋아요. 실내 디자인 굉장히 깔끔하고 젊은 연령의 마음을 사로잡네요~ 도어 튼튼하고 단단함이 느껴집니다.",c:"뒷자리 좌석 기울기가 고정이라 아이 어르신들이 장시간 운행하면 불편해하세요ㅜㅜ 무릎공간은 남는데 기울기 이거하나가 제일…"},
+ "SM6":{n:"SM6",b:"르노코리아",pr:1600,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/27/0407206a-54b7-47a9-ad9d-1032c5fbd8f6.jpeg",r:"2016년당시 인기차종 시간이 흘러도 신모델이 크게변하지않어 구형차로 느낌이 안남 삼성 특유의 정숙성과 안정감 및 삼성차만의 조용한 실내음",c:"불편한건 아니지만 타사차 대비 실내인테리어가 고전적입니다(계기판과 센터화면…"},
+ "말리부":{n:"말리부",b:"쉐보레",pr:1700,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/24/9c409cc9-3fe0-4077-9b9d-f122484a5030.jpeg",r:"장점. 차는 튼튼함. 묵직한 주행감. 정숙성 괜찮은 편. 고속에서 안정감 있음. 디자인은 무난해서 질리지 않음.",c:"리어너클이 고질적으로 문제가있다던데, 제 차량도 문제가 있어서 후방에서 계속 소음 발생하다가 결국 별도 비용지불하여 교체…"},
+ "XM3":{n:"XM3",b:"르노코리아",pr:1700,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/05/7db49882-a5c7-4bc6-b22c-f222ec7e1b26.jpeg",r:"트렁크 공간 엄청남 개인적으로 동급중 디자인이 제일 이뻤음 도로에 별로 없는 유니크함 세로형 네비가 너무좋음",c:"현대기아에 있는 옵션이지만 차선유지기능이 부족함.. 핸들이…"},
+ "아반떼":{n:"아반떼",b:"현대",pr:1750,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/f77702d9-d2e2-4e87-a9f6-48dda17f12f1.jpeg",r:"최고판매량답게 부품수급이 잘됨 쉐보레에 비해 저렴한 수리비용 조용한편 세련된 외관 그랜져에 굴하지않는 실내성",c:"타이어 바람 빠진거나...헤드라이트 수명 다해서 교체 한것 외에는 지금도 잘나가는 친구입니다...안녕 ㅠㅠ 내 청춘을 함께한 친…"},
+ "코나":{n:"코나",b:"현대",pr:1850,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/20/0bcc08f2-0387-4de8-a38e-948b7cba936d.jpeg",r:"연비가 기대이상으로 좋고 풀체인지 되면서 생긴 ccnc 네비게이션이 보기도 좋고 편했어요. 컬럼식 기어 조작방식도 편하고 좋았어요.",c:"엔진 가동시 소음이 생각보다 시끄러웠고 출력이 낮아 고 rpm을 자주 사용합니다. 멍청한 dct 미션도 한목하는…"},
+ "트레일블레이저":{n:"트레일블레이저",b:"쉐보레",pr:1900,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/14/92c7df84-8b2f-415a-b5c1-cac4fd99f1de.jpeg",r:"소형 suv 인데도 묵직하고 튼튼한 느낌 이랄까? 현기차에서는 느낄수 없는 또다른 맛이 있네요..",c:"전체적으로 만족하고, 다만 한가지가 부족하다고 하면 백미러가 버튼 눌러야 열린다는 것 빼고는…"},
+ "셀토스":{n:"셀토스",b:"기아",pr:1950,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/18/a22493dc-5d10-4f1a-a988-6ed5a1c086a9.jpeg",r:"소형차라고하기엔 넓은 실내와 터보엔진이라 잘나갑니다 그리고 다른소형차엔없는 뒷자석 에어컨까지 아주만족 스러웠습니다",c:"1. 차체가 다른 SUV 비해 가벼운 편이라 고속 주행 시 정숙감이 다소 떨어짐 2. 헤드업 디스플레이 및 서라운드뷰…"},
+ "캐스퍼 일렉트릭":{n:"캐스퍼 일렉트릭",b:"현대",pr:2000,y:2024,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/dc5884ec-a56d-4408-997c-6eb6ad1d2fed.jpeg",r:"-시내주행 평범한 구간에는 별무리없이 잘 나갑니다(오르막에서 지나진 RPM) -좁은 골목에서 기가막히게 잘~ 빠져나갑니다",c:"커피홀더 부분이 작아서 조금 불편해요.(경차라서 그런거라 어쩔 수 없지만요 ) 뒷자리는 오래 타기…"},
+ "QM6":{n:"QM6",b:"르노코리아",pr:2000,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/17/d121b6e6-a994-45ce-8abf-8e4def08384d.jpeg",r:"튼튼한하체 커브길에서쏠림이 적고 출렁임이 없어 안전성이 좋은거 같아요 그리고 연식대비 디자인은 이뻐요",c:"운전석 시트가 딱딱해서 피로감이 있었어요, 다행히 허벅지 아래쪽 시트가 인출 기능이 있어 그나마 다행…"},
+ "코란도":{n:"코란도",b:"KG모빌리티",pr:2000,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/ac517de2-4a5d-43cb-9d5e-f25544476f8b.jpeg",r:"생각보다 여유있는 출력 생각보다 고속주행 안정성 에어컨 완전시원 엔진 내구성 2열 시트 풀 플랫",c:"2열이 슬라이딩도어가 아닌점이 불편하지만 아이들안전을생각하면 그렇지도않음 타면서 고장 한번도…"},
+ "트랙스 크로스오버":{n:"트랙스 크로스오버",b:"쉐보레",pr:2000,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/09/05/be5877b4-6011-4183-a52f-5afdc2de20df.jpeg",r:"뒷자석 폴딩, 뒷자석 넓음, 넉넉한 실내공간에 비해 차는 큰편이 아니라서 골목 주행 용이함",c:"오디오가 조금 아쉽고 인터페이스 자유도가 아쉽습…"},
+ "니로":{n:"니로",b:"기아",pr:2150,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/17/27c9b4fb-81a5-474b-a04e-9b947f45e55b.jpeg",r:"장점: 연비, 에어컨 히터 안틀고 연비주행하면 실제 26-27l/km 찍음. 생각보다 넓음, 220V 플러그 있어서 아이패드 등 뒷자리 충전가능",c:"4인가족 여행시 트렁크 공간이 부족해서 정교한 테트리스 작업을…"},
+ "쏘나타":{n:"쏘나타",b:"현대",pr:2250,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/19/4f8ecd95-bfbd-48c3-97f9-d6c7eb477a9f.jpeg",r:"30대 늦은 나이에 수험생활을 시작하기 위해 눈물을 머금고 보내는 붕붕이에요 연비는 하이브리드라 말할것도 없고요 실내도 생각 이상으로 넓습니다",c:"속도를 즐기는분들께 아쉬울 수 있는 출력 택시로 보여지는 흔한 차 이미지 LPG 연료통 공간차지때문에 발생하는 트렁크…"},
+ "K5":{n:"K5",b:"기아",pr:2350,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/19/4c612149-a440-43a3-a107-287bcf65f5e7.jpeg",r:"LPG차량의 장점인 유류비 부담이 없습니다. 전국 어디든 왕복해도 좋은 연비가 최고입니다.",c:"우선 주행거리가 많다보니...그렇지만 진짜 수시로 관리하며 매일 세수시키고 다녔습니다. 외모는 다들 새찬줄…"},
+ "벨로스터 N":{n:"벨로스터 N",b:"현대",pr:2500,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/17/0e15feca-216e-4cab-bb79-c75e8fa35ac9.jpeg",r:"색상이 좀 튀기는 하지만 젊은 감성을 느끼며 탈수 있어서 좋았고,생각보다 정말 좋은 연비를 가지고 있슴니다.(시내주행 14km이상)",c:"고장은 없었고 스포츠카를 모방한 차이다 보니 방음에 조금 아쉬움이 있었으나 이 또한 시동걸고 달리기 시작하면 모두 용서가 되었…"},
+ "투싼":{n:"투싼",b:"현대",pr:2600,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/12/23/010da95d-5dca-4913-9f4d-abbc630e212f.jpeg",r:"디자인 예쁘고 가격대비 연비와 출력이 괜찮은편입니다. 내브 공간도 넓고 편하게 타기는 좋은차량 같아요",c:"경유차라서 그런지 진동과 소음이 있어요. 또한 뒷좌석 에어콘이 없어서 여름에 가족이나 손님을 태우면 불편합니다. 2010년형이라서…"},
+ "코나 일렉트릭":{n:"코나 일렉트릭",b:"현대",pr:2600,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/20/0bcc08f2-0387-4de8-a38e-948b7cba936d.jpeg",r:"연비가 기대이상으로 좋고 풀체인지 되면서 생긴 ccnc 네비게이션이 보기도 좋고 편했어요. 컬럼식 기어 조작방식도 편하고 좋았어요.",c:"엔진 가동시 소음이 생각보다 시끄러웠고 출력이 낮아 고 rpm을 자주 사용합니다. 멍청한 dct 미션도 한목하는…"},
+ "토레스":{n:"토레스",b:"KG모빌리티",pr:2700,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/10/45469c56-2677-4b16-a22d-3e6dbf0dadf5.jpeg",r:"아무래도 동일 금액대 다른 차량들보다 디자인이 이쁜것같아요. 지나가던 사람이 이 차는 외제차냐고 물어보면서 너무 이쁘다고 얘기하더라규요",c:"승차감이 좋지는 않아요. k3를 타다가 토레스로 넘어갔는데 방지턱 밟을 때마다 몸에 타격감이 느껴집니다 이건 k3랑 비…"},
+ "스포티지":{n:"스포티지",b:"기아",pr:2750,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/12/24/4cf11719-1890-478f-8024-89f237ae4134.jpeg",r:"외관도 내부도 정말 새차 그대로 입니다. 성능 문제없고 차 잘나갑니다. 불가피한 사정으로 판매하게 되었지만 정말 아쉽습니다",c:"고장은 없었구요. 불편한점도 딱히 모르겠네요...suv 차량이지만 휘발유차라 정숙성도…"},
+ "렉스턴 스포츠":{n:"렉스턴 스포츠",b:"KG모빌리티",pr:2900,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/04/4180dc3b-06a8-43c1-8b44-86ab70060aa5.jpeg",r:"서비스센터가 잘되있어서 정비에 필요한 사항은 언제든 안심되게 수리를 받을 수 있어 1년 수리비가 평균 50만원이 되지 않았던것이 정말좋았어요.",c:"프레임바디 특징이므로 감안했으나 굳이 꼽자면 뒤뚱댈때가…"},
+ "아반떼 N":{n:"아반떼 N",b:"현대",pr:2900,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/f77702d9-d2e2-4e87-a9f6-48dda17f12f1.jpeg",r:"최고판매량답게 부품수급이 잘됨 쉐보레에 비해 저렴한 수리비용 조용한편 세련된 외관 그랜져에 굴하지않는 실내성",c:"타이어 바람 빠진거나...헤드라이트 수명 다해서 교체 한것 외에는 지금도 잘나가는 친구입니다...안녕 ㅠㅠ 내 청춘을 함께한 친…"},
+ "스팅어":{n:"스팅어",b:"기아",pr:2950,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/23/2acaebde-bba3-4651-a81f-b268757848d3.jpeg",r:"국산차 같지 않은 외모로 스포츠 세단의 이미지를 가지고 있습니다. 생각보다 주행감도 좋습니다.",c:"가솔린 차량이라 엔진소음은 없었지만 정숙성을 기대하고 타는 차는 아닙니다 But 포드 머스탱과같이 거칠지…"},
+ "EV3":{n:"EV3",b:"기아",pr:3000,y:2024,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/17/d7c8a649-ad18-403e-9b7c-ccde7da3d4f9.jpeg",r:"편안한 주행과 가속력 그리고 저렴한 유지비 그냥 핸드폰 처럼 충전하고 운행하기만 하면된다.",c:""},
+ "이쿼녹스":{n:"이쿼녹스",b:"쉐보레",pr:3000,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/22/9a717c46-d8c7-45d1-b0fb-e3063c5f4b2f.jpeg",r:"차량 기본기가 정말 좋아요 핸들링 코너링 브레이킹 끝내주고 전체적인 발란스가 정말 일품입니다",c:"멕시코 생산이라 그런지 마감이나 잡소리가 살짝 있…"},
+ "토레스 EVX":{n:"토레스 EVX",b:"KG모빌리티",pr:3000,y:2024,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/10/3f3c6c35-cbb7-40d2-bacd-b8a53f947e74.jpeg",r:"아무래도 동일 금액대 다른 차량들보다 디자인이 이쁜것같아요. 지나가던 사람이 이 차는 외제차냐고 물어보면서 너무 이쁘다고 얘기하더라규요",c:"승차감이 좋지는 않아요. k3를 타다가 토레스로 넘어갔는데 방지턱 밟을 때마다 몸에 타격감이 느껴집니다 이건 k3랑 비…"},
+ "G70":{n:"G70",b:"제네시스",pr:3200,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/14/4bb91088-4d60-4948-949f-eb97bbcb9f62.jpeg",r:"원래 운전을 싫어했는데 운전의 재미를 느끼게 해준 차입니다 힘좋게 잘나가고 브레이크 또한 훌륭하며 승차감까지 좋은수준입니다",c:"생각보다 많이먹는 기름 . 꽉막히는 시내기준 연비 4~5km/l 고속도로 정속주행시 12~13km/l…"},
+ "렉스턴":{n:"렉스턴",b:"KG모빌리티",pr:3200,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/04/4180dc3b-06a8-43c1-8b44-86ab70060aa5.jpeg",r:"서비스센터가 잘되있어서 정비에 필요한 사항은 언제든 안심되게 수리를 받을 수 있어 1년 수리비가 평균 50만원이 되지 않았던것이 정말좋았어요.",c:"프레임바디 특징이므로 감안했으나 굳이 꼽자면 뒤뚱댈때가…"},
+ "아이오닉5":{n:"아이오닉5",b:"현대",pr:3300,y:2022,p:"",r:"",c:""},
+ "스타리아":{n:"스타리아",b:"현대",pr:3300,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/22/091cd27c-65bb-4f53-b16e-482add1f443a.jpeg",r:"실내가 넓고 안정감있는 드라이브 그리고 무엇보다 앞자리 승차감이 좋음 덩치에 비해 연비도 괜찮은 편이예요",c:"주행가능거리가 표시되지않아서 불편해요 뒷좌석은 레일이 없는 고정식이라 앞뒤로 이동이…"},
+ "싼타페":{n:"싼타페",b:"현대",pr:3350,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/18/1288ed56-332b-47f6-a2e8-b0ed88e1466f.jpeg",r:"6인승인데 성인 6명에서 장거리 다녀왔습니다. 3열에도 아주 큰사람이.아니면 탈수있는 장점이 좋았습니다",c:"현대차 고질병인 뒤휀다 모서리 일부 부식은 정성스럽게 페인트로 관리해왔으나 자세히 보면 티가…"},
+ "쏘렌토":{n:"쏘렌토",b:"기아",pr:3450,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/14/cf6dabd9-b130-4cd1-adec-0b35e493a9f7.jpeg",r:"높은연비와 디젤차같지않은 정숙성과 승차감이 녀무 좋았습니다 적어도 7,8년은 탈려고 구매했는데 택배업을 하려고 차를 내놓게 됩니다 ㅠㅜ",c:"18인치 순정휠에서 20인치로 바꾸고 나니 약간의 승차감 저하가 있었습니다.. 하이브리드는 18인치가 좋은 것…"},
+ "EV6":{n:"EV6",b:"기아",pr:3500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/23/c612131a-b27f-4221-8d82-4e66ccd7feab.jpeg",r:"SUV로 캠핑을 다닐 수 있어서 너무 좋았습니다, 전기차로 조용하고 부드러운 모터로 운전하기 편했습니다",c:"각자의 거주 공간에서 충전 문제에 대한 불편함만 없다면 딱히 단점이나 불편한 점은 없는 차…"},
+ "K9":{n:"K9",b:"기아",pr:3500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/17/4f907467-32b3-4e04-95fe-ce3f993c27f2.jpeg",r:"묵직한 승차감이 거의 왠만한 고급 수입차와 거의 비슷한 수준입니다. 뒷자리 리클라이너가 있어서 장시간 앉아있어도 엄청 편합니다.",c:"불편함 단점 잔고장 한번 없는 완벽한 차량이었습…"},
+ "K8":{n:"K8",b:"기아",pr:3550,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/23/51f86c54-4959-411e-a68a-0f33ddb7c211.jpeg",r:"넉넉한 2열 공간, 세련된 실내 디자인, 우수한 방음처리, 부드러운 승차감, 깊은 실내, 턴시그널 미려함, 중장거리 연비 우수",c:"불편한 및 고장으로 불편함을 가진적이 단 1도 없습니다. 매우 만족합…"},
+ "아이오닉6":{n:"아이오닉6",b:"현대",pr:3600,y:2023,p:"",r:"",c:""},
+ "그랜저":{n:"그랜저",b:"현대",pr:3650,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/21/b3a5023e-833d-4ce9-9824-31eaaae1ee6a.jpeg",r:"그랜저 ig 페이스리프트 되기 딱 직전에 출고 된 차량이라 완벽하다고 생각합니다. 잔고장없고 최고",c:"엔진소음과 바닥소음 거의 없습니다. 진심으로 아껴주면서 관리했습니다 보내기 아쉬운 차량…"},
+ "콜로라도":{n:"콜로라도",b:"쉐보레",pr:3800,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/10/011fee98-db72-4cbf-86c0-030be9e43fb8.jpeg",r:"힘이~~죽여줍니다 ~건강상 캠핑을 접으면서 차량도 정리 합니다..카라반 달고 다니면서 좋은 추억과 행복을....ㅠㅠ",c:"단점은 없다고 생각해요~~정말 잘만든 차량 입니다…"},
+ "카니발":{n:"카니발",b:"기아",pr:3850,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/292de727-8c10-44bc-8ff8-c677ca64547a.jpeg",r:"차 크기에 비해 운전하기도 좋고 실내 거주성은 최고인것 같습니다. 6인승 이상 suv 와 비교 시 3열 사용하는게 쾌적합니다",c:"크게 단점은 없고 계약된 포르쉐 차량이 출고 임박이 되어 팔게 되었습니다. 보험료가 이중으로 나가게 되기도…"},
+ "트래버스":{n:"트래버스",b:"쉐보레",pr:4200,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/22/b8312983-8a91-4e5b-8a34-a017dc12dd61.jpeg",r:"1. 외관이 정말 근사합니다. 2. 넉넉한 실내와 차박에 최적화 되어있습니다. 3. 힘이 좋아 쭉쭉 차고 갑니다. 4. 승차감이 좋습니다.",c:"큰 덩치로 인해 차에 적응하기 전까지는 구형 건물 지하 주차장 같은 곳이용이 약간 어려울수…"},
+ "팰리세이드":{n:"팰리세이드",b:"현대",pr:4300,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/502d2c81-6fb9-463b-981a-c4f2a36768bd.jpeg",r:"대형차량답게 여유로운 실내공간과 7인승만의 2열 독립시트는 정말 훌륭합니다 기본의 옵션도 훌륭하지만 옵션에따른 추가 보상은 최고인듯합니다",c:"음.. 차가 너무 커서 좁은 주차장에서는 좋은 자리 찾을라고 몇 바퀴 돌아야 하는 점 . 나머지는…"},
+ "모하비":{n:"모하비",b:"기아",pr:4500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/18/8fb10ab1-af77-4226-be3f-4138e199c3c9.jpeg",r:"힘좋구. 주행시 낮게 가라않는 안정감이 좋습니다. 튼튼한 프레임 바디방식으로 뛰어난 안전성",c:"없습니다 2달만에 판매하는거거든요 모하비는 단점이 아니라 오프로드의 맛을살린 차라 약간 불편할뿐 정말 멋진차라…"},
+ "GV60":{n:"GV60",b:"제네시스",pr:4500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/22/aaa0991c-b7cb-40cd-8bdf-d7402cec5789.jpeg",r:"제네시스 브렌드 첫전기처로....하차감도 나쁘지않았고 내연기관대비 유지비가 저렴해서 좋았습니다. 가속력또한 말할것없이 국내최고였구요.",c:"간혹 리콜 요청이 들어와서 그런 부분은 번거롭지만 제네시스는 출장 리콜 서비스를 제공해 주기 때문에 나름 편안하게 서비스 받을…"},
+ "GV70":{n:"GV70",b:"제네시스",pr:5300,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/28161e3e-9413-4b5b-9b5e-7d3d6ad8f2ba.jpeg",r:"독 3사에 없는 옵션 생각보다 훨씬 좋은 가죽 국산차중 가장 이쁜 외형 2명이서 타기에는 가장 좋은 국산차!! 제네시스 솔직히 놀랍습니다.",c:"트렁크가 엄청 작음 너무 작음 골프백 1개 끝... 2개는 x자로 가능.. 26인치 캐리어…"},
+ "G80":{n:"G80",b:"제네시스",pr:5500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/20/f3ca647b-77be-4919-9123-0adbf5c7818b.jpeg",r:"RG3가 주지못하는 고급스럽고 나긋나긋한 주행감각. 우람한 떡대. 자연흡기 6기통이 주는 매력적인 사운드.",c:"전혀 없었습니다 전반적으로 제네시스에서도 대우 받는 느낌이라 매우 아주 만족했습니다 제차는 리콜.대상에서도 제…"},
+ "카니발 하이브리드":{n:"카니발 하이브리드",b:"기아",pr:5500,y:2024,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/24/4da52357-dc41-4fa7-be66-8247b61f521e.jpeg",r:"차 크기에 비해 운전하기도 좋고 실내 거주성은 최고인것 같습니다. 6인승 이상 suv 와 비교 시 3열 사용하는게 쾌적합니다",c:"크게 단점은 없고 계약된 포르쉐 차량이 출고 임박이 되어 팔게 되었습니다. 보험료가 이중으로 나가게 되기도…"},
+ "타호":{n:"타호",b:"쉐보레",pr:6000,y:2023,p:"",r:"미국차답게 단순하면서 힘좋고 넓은개방감 우량한크기가 매력입니다.",c:"서비스 정숙성 가격대비 죄다 불만…"},
+ "아이오닉5 N":{n:"아이오닉5 N",b:"현대",pr:6000,y:2024,p:"",r:"",c:""},
+ "GV80":{n:"GV80",b:"제네시스",pr:6400,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/11/cf30ac05-b6ea-485e-80c4-1e0f2e1c45ba.jpeg",r:"내.외관 디자인은 남녀 모두 좋아할만하고 실내가 고급스러우며 안전장치및 편의기능들이 많아 운전에 도움이 됩니다.",c:"전혀 없었어요 혹시나 고장이나 단점 있으면 언제든지 수리 가능 합니다 보증기간 2026년 까지라서 언제든 블루핸즈 방문 하시면…"},
+ "EV9":{n:"EV9",b:"기아",pr:6600,y:2024,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/23/9de81cf4-26d7-45a8-84a3-e3c8f8326bf2.jpeg",r:"전기차중 가장 큰 공간 그리고 큰 차에 긴 주행거리, 차박에 특화된 전기차 가족여행에 최고인 SUV전기차죠.",c:"긴 휠베이스로 주차건물 진출입이 불편한것 이외에 불편한점은 없…"},
+ "아이오닉9":{n:"아이오닉9",b:"현대",pr:6800,y:2025,p:"",r:"",c:""},
+ "GV80 쿠페":{n:"GV80 쿠페",b:"제네시스",pr:7000,y:2024,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/06/f280e20b-c5cd-4291-9e37-79491a837c24.jpeg",r:"내.외관 디자인은 남녀 모두 좋아할만하고 실내가 고급스러우며 안전장치및 편의기능들이 많아 운전에 도움이 됩니다.",c:"전혀 없었어요 혹시나 고장이나 단점 있으면 언제든지 수리 가능 합니다 보증기간 2026년 까지라서 언제든 블루핸즈 방문 하시면…"},
+ "G90":{n:"G90",b:"제네시스",pr:9500,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/01/32f2bd05-35b2-4e21-9817-0cc9e76a450d.jpeg",r:"얼마전에 친구 벤츠 S580 신형을 타봤는데 G90이랑 별 차이를 못느꼈습니다. 그 만큼 대형 세단 최고의 가성비라 생각합니다.",c:"잔고장이나 불편사항이 단한번도 발생하지 않았습니다. 제네시스 칭찬합…"},
+ "3008":{n:"3008",b:"푸조",pr:2200,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/08/df38322d-fe8f-42e4-b9d7-b97a69e0c548.jpeg",r:"어려운 시기 연비가 좋네요 오히려 요즘에 연비가 더 좋네요 묵직한 가속과 2.0이라 힘도 좋고요 핸들링은 다른차랑 다릅니다 참 좋은 친구입니다",c:"생각보다 4인 가족 기준으로 보면 공간이 조금 좁고 통풍시트 기능이 없어서 여름철에는 조금 아…"},
+ "골프":{n:"골프",b:"폭스바겐",pr:2400,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/10/20/664bf868-80c7-42ab-9797-3f72e65aeba5.jpeg",r:"생각보다 실내 공간이 여유롭습니다. GTI라서 주행성능도 좋구요. 배기 소리도 적당해서 주위에 민폐끼치지 않으면서 감성있게 운행했습니다.",c:"쇼바를 내리고 훨이 크다보니까. 방지턱을 빨리 넘으면 차가 많이 꿀렁거립니다. 비포장도로만 아니면 승차감은…"},
+ "쿠퍼":{n:"쿠퍼",b:"미니",pr:2500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/06/702749c9-7ab2-4780-9de9-b9f3392d7e86.jpeg",r:"밑도 끝도 없는 독특하고 독보적인 디자인? 그 매력 하나로 미니라는 차가 여기까지 온 것 같아요",c:"단단한 승차감과 아이신6단의 살짝 이질감. 고질병이 존재하나 정비소 많고, 지식인들…"},
+ "캠리":{n:"캠리",b:"토요타",pr:2900,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/06/40d2d076-1f3e-4a1b-8206-e2130b68a0f0.jpeg",r:"2500cc 자연흡기라 부드러운 주행감. 고속 주행시 지면에 밀착감 있는 안정성. 넓은 파노라마 선루프",c:"정식 서비스센터에서 소음 차단, 사각지대감지(사이드미러) 추가 장착으로 운행중 불편함…"},
+ "티구안":{n:"티구안",b:"폭스바겐",pr:3000,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/02/19/59ca593c-d7d5-4ca8-bdcc-fa3912564fb1.jpeg",r:"생각보다 차량이 넓고 운전할때 느낌이 경쾌합니다. 막타기 부담없는 좋은 차량입니다. 의외로 차고가 높아서 운전도 편합니다.",c:"출발시 저속구간은 다소 굼뜨다는 느낌이 있습니다. 기본 내비가 좋지않이 카플레이 혹은 안드로이드 오토를 이용하는 것이…"},
+ "프리우스":{n:"프리우스",b:"토요타",pr:3000,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/19/ec44b13e-e410-4738-a969-c43647c4fb78.jpeg",r:"좀 비싸긴 하지만 사회 초년생이 타기 좋은 차, 작아도 잘 굴러감, 모닝이나 스파크보다는 커서 원룸 짐은 다 들어감",c:"풍절음 심함, 큰 차 옆에 지나갈때 흔들림 심함, 트렁크 작음, 수입차다보니 정비 비용 비쌈,…"},
+ "어코드":{n:"어코드",b:"혼다",pr:3000,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/14/0fa424fd-2af5-486e-bd04-440ce3a88f5a.jpeg",r:"연비가좋고 가속이좋고 집사람타라고 사줬는데 아직까지도 만족하고타고있어요 집사람은 더타고싶다는데 이번에 새차를사주고싶어서 판매합니다.",c:"옵션 선택 여지가 없음. 핸들열선 통풍시트 전동트렁크 등... 국산차에서도 흔한 기능들을 옵션으로도 정식 사용할 수 없는…"},
+ "RAV4":{n:"RAV4",b:"토요타",pr:3200,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/24/9bf30acf-c6b5-40fd-aac5-d940e2c0525b.jpeg",r:"소유한 기간동안 잔고장 없고 충분히 강력한 힘과 부드러운 주행력. 여유로운 실내공간과 편안한 착좌감. 하이브리드의 좋은연비.",c:"연비가 너무 좋아서 주유를 한달에 한번 정도밖에 안하다보니 가끔 주유소를 갈때마다 조금 어색하기도…"},
+ "모델3":{n:"모델3",b:"테슬라",pr:3300,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/11/b576163e-c318-46c2-b4e9-f1cc6286f3db.jpeg",r:"디자인 퍼포먼스에 걸맞은 출력,조향감각,승차감 훌륭해요 서스 컴포트로 놓으면 일반 세단 처럼 부드러운 승차감도 좋습니다.",c:"하부에 배터리가 있다보니 승차감이 조금 떨어집니다. 대신에 시트가 좀 편합니다. 그래서 괜찮았구요 그 외엔 다른 불편한점…"},
+ "아테온":{n:"아테온",b:"폭스바겐",pr:3300,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/08/ceb257e8-5dd1-4789-b422-627912301ee2.jpeg",r:"정말 차의 기본성능, 드라이빙의 기쁨이 컸어요 고속주행은 물론 답답한 시내에서도 차산변경등의 순간가속 정지등이 정말 훌륭합니다",c:"아무래도 디젤이다보니 진동과 소음은 어쩔 수 없이 불편했습니다. 그리고 하체 잡소리가 조금 있어요. 그거빼…"},
+ "CR-V":{n:"CR-V",b:"혼다",pr:3300,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/07/11/1d68f056-7ed9-4125-a583-5ce3a735c644.jpeg",r:"기대이상의 여유로운 공간 잔고장이 없다 연비가 좋다 엔진 소음이 없다 기어 조작이 용이하다",c:"부품수급은 잘되는데 정품 서비스 센터는 비싼 단점이 있어 행사시나 혼다 전문 사설정비를 이용…"},
+ "CLA":{n:"CLA",b:"벤츠",pr:3500,y:2022,p:"",r:"",c:""},
+ "컨트리맨":{n:"컨트리맨",b:"미니",pr:3500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/17/1d684108-30c6-4d2a-b48a-da4c56995a5d.jpeg",r:"미니컨트리맨만의 특유감성과 안정된 코너링 디젤의 경유 연비 괜찮았습니다 핸들링 또한 부드럽고 차량이 튼튼하다고 느껴져요!",c:"고속주행 풍절음은 조금 있어요 순정타이어가 런플랫이고 핸들/코너링이 좋다보니 승차감이 조금 단단해요 핸들이 다소 묵직해서 호불…"},
+ "A4":{n:"A4",b:"아우디",pr:3600,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/22/b8f07812-1668-4011-a803-f2b7edd0dd93.jpeg",r:"차량의 안전성과 .가성비가 훌륭한 차량입니다. 고속도로운행을 많이했지만 가속시안정감.코너링.제동력등이 좋습니다.",c:"디젤모델이여서 진동은 어쩔 수 없지만 차량관리 스스로 조금만 할 줄 아시는 분들이라면 문제될게 없습니다 잔고장 없이 소모품만 관리하…"},
+ "3시리즈":{n:"3시리즈",b:"BMW",pr:3900,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/04/db8d7565-a26c-4c16-a97f-1f34d023b163.jpeg",r:"주행감이 정말좋고 엔진필링이 너무좋습니다 가속감 벨런스 미션속도 정말 만족도가높은차량입니다",c:"통풍시트?없는단점 빼고는 단점은 없는듣합니다. 오너중심의 젊은 오너나 .아이없는 부부가 타기에는 더없는 선택인…"},
+ "모델Y":{n:"모델Y",b:"테슬라",pr:4000,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/23/fdf672ee-2eb0-4a84-b78b-51014514055f.jpeg",r:"매우 빠르고 직진성능이 굉장히 좋았어요. 아무래도 유지비가 반에 반으로 줄어 매년 4만키로 이상 주행하는 저에겐 많은 도움이 되었습니다.",c:"뒷좌석 승차감은 별로에요. 트렁크는 좀 작은편이라 골프백 넣는 것이 불편하나, 뒷좌석 한쪽만 접으면 3개 새트와 세명이 이동하가…"},
+ "C클래스":{n:"C클래스",b:"벤츠",pr:4200,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/01/14/dbf4a455-73e6-48c6-ad18-21d5bbbb217b.jpeg",r:"컴팩트 세단으로, 1인 또는 2인 탑승해서 운행하시기 좋은 차량이며, 연비 효율이 좋은 장점이 있습니다.",c:"아기였던 애들이 청소년이 되고, 어머미도 함께 모시고 다니어야 해서 SUV로 갈아탑니다~~ 그감 고마왔다~~“C”…"},
+ "4시리즈":{n:"4시리즈",b:"BMW",pr:4500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/01/24/01874ed5-9244-48af-9edf-182000587dc0.JPEG",r:"디자인 이쁨. 트렁크 개방감 굿. 적당한 출력. b48 끝물이라 고장 결함이 하나도 안남. 연비도 낫벧",c:"아기가 생기면서 실내 공간이 작다는 느낌이 혼자 타고 다닐 때와 다르게 크게 느껴지…"},
+ "GLB":{n:"GLB",b:"벤츠",pr:4500,y:2022,p:"",r:"",c:""},
+ "ES":{n:"ES",b:"렉서스",pr:4600,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/05/05/d2ebbea3-8fb8-4911-afbb-cbc18f128fed.jpeg",r:"편안하고 조용한 승차감. 변하지 않는 일정한 컨디션. 고장 및 잡소리 없음. 조수석에 타는 지인마다 하는 말 ‘이차 왜이리 조용??’",c:"엠비언트가 최대의 단점....구매하고 엠비언트가 있는지 1년이 지나서야 있다는 사실을 알았…"},
+ "머스탱":{n:"머스탱",b:"포드",pr:4600,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/03/1e20d81b-b6eb-4362-a15c-c7d49bc0680d.jpeg",r:"감성과 존재감, 하차감이 좋습니다. 내연기관의 멋을 추구하는 스포츠 쿠페입니다. 가격에 있어 최고입니다. 오디오는 B&O 최상급입니다.",c:"눈 오는 날은 대중교통을 타세요. 아 물론 저는 후지와라타쿠미의 전신이라, 눈길 드리프트를 만끽…"},
+ "X3":{n:"X3",b:"BMW",pr:4800,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/29/b3393ce0-c68a-4b83-a3c9-5a6618003541.jpeg",r:"정말 기대 이상으로 주행성능이나 승차감이 너무 좋고 잔고장이 없어서 그동안 너무 편하게 탔어요",c:"고장은 없었고 단지 세월의 흔적이 좀 있고 이제 하나씩 수리해야 하는 부분들이 나타나기 시작…"},
+ "Q5":{n:"Q5",b:"아우디",pr:4800,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/10/30/868cd43e-edb4-4641-9768-da3f14cb4168.jpeg",r:"동급대비 압도적인 출력과 마력으로 시원하게 뻗어나갑니다. 또한 적당한 실내공간으로 패밀리카 용도로 적합합니다",c:"뒷자석의 등받이 각도가 조절이 안되고 너무 세워져 있는 각도 때문에 장시간 앉앆을때 불편…"},
+ "XC60":{n:"XC60",b:"볼보",pr:4900,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/02/1b3c328f-c91b-4cec-a20a-c9f798ca8f7d.jpeg",r:"19년3월 디젤 출고차량으로, 연식 대비 훌륭하고 안전한 운전보조 장치. 신뢰가는 안정성. 괜찮은 연비와 출력. 가격 대비 충분한 기본 옵션들.",c:"냉간시동 때, 엔진회전음이 꽤 커요. 도로주행 시 서스펜션이 딱딱해서 부드러운 주행보다는 좀 단단한 주행질감이에요(B6. 20…"},
+ "랭글러":{n:"랭글러",b:"지프",pr:5000,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/31/c862c804-64fd-4f40-b1d2-005c79783652.jpeg",r:"누구나 한번쯤은 몰아보고 싶은 마초같은 모습의 랭글러... 가고싶은곳 어디든 잘가고는... don't hold back.",c:"2열이 좁아서 4명이타기에는 불편해요 휘발유 엔진이라 고장은…"},
+ "A6":{n:"A6",b:"아우디",pr:5100,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/06/f544ddf6-faa5-4198-a0f8-c9d6618e18dc.jpeg",r:"너무 만족하고 타고있어요 주행성능 편의성 벤츠E클레스 보다 윗등급 입니다 특히 주행성능 너무 훌륭합니다",c:"1. 실내 수납공간부족 핸드폰 둘곳이 마땅하지않아 불편 2. 뒷자리 좁아 불편 3. 신차할인…"},
+ "5시리즈":{n:"5시리즈",b:"BMW",pr:5300,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/15/a02d891f-90d1-41f8-8315-046937ed6e11.jpeg",r:"잘 나가고 잘 섬. 운전하는 재미가 있음. 연비부터 시작하여 가격대비 여러모로 가성비가 좋은 외제차.",c:"이건 BM이라서가 아니라 어떤 디젤이든 여성분들(와이프) 한정된 내용인데 저속에서 엔진음과 미세한 떨림이 거슬린다 하네요 저는…"},
+ "E클래스":{n:"E클래스",b:"벤츠",pr:5600,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/06/19/acb1f988-7782-4558-9f5c-dbcc3a1a05ad.jpeg",r:"쿠페임에도 나름 넓은 뒷자리 우주명차 m272엔진 bmw와 너무나 다른 정비성 고장없음 탱크 엔진",c:"잦은 고장은 없었고 단점이라고 한다면 국산 차량 대비 뒷자리 레그룸이 그렇게 넓지 않습니다. 아반테보단 넓지만 소나타보단…"},
+ "RX":{n:"RX",b:"렉서스",pr:6000,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/02/aaf80b62-c4cc-48ea-bd4c-8edb9f69b358.jpeg",r:"사실 벤츠도 타고 있지만 렉서스가 잔고장도 없고 차도 잘나가고 지금 세차 벤츠보다도 엔진 소리가 더 좋아요.. 물론 힘도 더 좋고요..",c:"1.점점 연식이 되니 정숙성ㅈ이 떨어지니 쇼바나 차체 마운트를 손보고 싶었는데 다음 분에게. 2.고장난 경우는…"},
+ "XC90":{n:"XC90",b:"볼보",pr:6500,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/07/18/778c2d36-b14d-4616-a8eb-6e381ca0319e.jpeg",r:"안전은 사고가 나야 알수있는 장점이지만 타는 동안에도 안전하다는 믿음 때문인지 편하게 운전했습니다.",c:"Suv라 어쩔수 없긴한데 승차감이 좀 떨어집니다. 도심에선 문제없는데 비포장도로나 높은 방지턱을 고속으로 넘어갈때…"},
+ "GLC":{n:"GLC",b:"벤츠",pr:6600,y:2023,p:"",r:"",c:""},
+ "718":{n:"718",b:"포르쉐",pr:7000,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/04/03/31cfe80e-28bf-4c46-9cdb-ee4ec017421d.jpeg",r:"낮은 배기량이지만 답답하지않은 주행성능 고성능 차량이지만 연비도 좋음 박스터는 소프트탑라인이 별로지만 카이맨은 정말 예쁨",c:"작은 트렁크 공간이 가장 불편했습니…"},
+ "디스커버리":{n:"디스커버리",b:"랜드로버",pr:7200,y:2021,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/03/31/1d745218-53ba-4ead-bb61-cc80ae6d72da.jpeg",r:"실내공간이 상당히 넓으며 승차감또한 단연 최고였습니다. 차박캠핑에도 특화가되어 있네요 패밀리카로 최고입니다",c:"단점 개인적으로는 없었습니다. 요즘 수리도 보편화가 많이 되어있어서, 사설 공업사에서도 많이 취급을 하다보니 크게 불편한점은…"},
+ "마칸":{n:"마칸",b:"포르쉐",pr:7900,y:2022,p:"",r:"포르쉐감성을 느낄수있고 밟으면 밟는데로 가속과감녹이 잘 되고 승차감이 너무 부드럽고 하차감도 좋아요",c:"운전석이나 조수석은 편하고 좋은데, 뒷좌석이 조금 좁고 약간 불편합…"},
+ "GLE":{n:"GLE",b:"벤츠",pr:8500,y:2022,p:"",r:"",c:""},
+ "X5":{n:"X5",b:"BMW",pr:8600,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/01/03/6e7bb47b-08a5-4cab-a84d-b97b14656197.JPEG",r:"말해뭐해요 디자인 예쁘고 실내 넓고 고급스럽고 주행 안정성도 뛰어납니다 감가가 충분히 되서 소렌토 살 가격이면 충분히 오너가 가능합니다",c:"1만키로도 안된 새차라 큰 불편함이나 단점은 모르겠고 타면서 타이어가 커서 나중에 교체를 어찌하나 걱정…"},
+ "카이엔":{n:"카이엔",b:"포르쉐",pr:11000,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2025/07/11/93c20e47-a857-45f9-8b59-1d2d4f2b72ad.jpeg",r:"카이엔 특히 쿠페는 디자인적으로 아름답고, 외적인 모습은 남성적이지만 승차감은 중성적인 매력이 있습니다.",c:"데일리카로 운용을 하다보니, 막히는 시내도로를 많이 다녔는데, 생각보다, 기름값이 좀 들…"},
+ "7시리즈":{n:"7시리즈",b:"BMW",pr:11000,y:2023,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/02/23/64a65739-7b63-4cb5-8826-904a91638656.jpeg",r:"대형차 같지 않은 빠른 몸놀림! 운전의 편안함과 기함으로서의 포스가 있는 차입니다. 후기형 f01은 디자인면에서도 훌륭했어요.",c:"네비게이션은 맵 업글해도 2~3년전 지도 트렌스퍼케이스 고질적 미세누유 그외엔 딱히 없…"},
+ "S클래스":{n:"S클래스",b:"벤츠",pr:13000,y:2022,p:"https://image.heydealer.com/unsafe/2200x0/https://prnd-car-purchase.s3.ap-northeast-2.amazonaws.com/media/cars/carmediafile/2026/02/20/1b89809b-42c2-415e-9adc-93424e9f6069.jpeg",r:"슈퍼카급 마력과토크에 정숙성및 승차감도 뛰어납니다. 두마리 토끼를 다 잡은 슈퍼세단입니다 s클래스 중에서도 상위 모델인만큼 만족도는 최상입니다.",c:"불편함 No, 고장 No! 보름전 광택, 코팅 5년차 정기점검 및 오일류 교…"},
+ "911":{n:"911",b:"포르쉐",pr:15000,y:2022,p:"",r:"하차감 괜찮음, 주행도 괜찮고 장거리도 편함, 타르가도 오픈이지만 개방감이 다름 첫차로 탔어서 그런지 포르쉐 밑으로 갈바엔 뚜벅이를 택하겠음",c:"주행상 고장 및 알람등은 전혀 없으며, 냉간에서 연기나오는 현상 전혀 없습니다. 티는 잘 안나지만, 페인팅 해야할 부위가 작게…"}
+};
+const REC={
+ FVSM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["티볼리","셀토스","레이"],anti:["SM6","말리부","캐스퍼 일렉트릭"]},3:{rec:["투싼","토레스","스포티지"],anti:["골프","쿠퍼","프리우스"]},4:{rec:["싼타페","쏘렌토","카니발"],anti:["모델3","아테온","A4"]},5:{rec:["팰리세이드","트래버스","모하비"],anti:["4시리즈","머스탱","ES"]},6:{rec:["카니발 하이브리드","GV80","EV9"],anti:["718","7시리즈","S클래스"]}},
+ FVSR:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["맥스크루즈","티볼리","셀토스"],anti:["SM6","말리부","캐스퍼 일렉트릭"]},3:{rec:["렉스턴 스포츠","투싼","토레스"],anti:["골프","쿠퍼","프리우스"]},4:{rec:["렉스턴","RAV4","싼타페"],anti:["모델3","A4","CLA"]},5:{rec:["트래버스","팰리세이드","모하비"],anti:["C클래스","4시리즈","ES"]},6:{rec:["타호","디스커버리","EV9"],anti:["A6","5시리즈","E클래스"]}},
+ FVNM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["셀토스","티볼리","XM3"],anti:["SM6","말리부","K3"]},3:{rec:["토레스","스포티지","EV3"],anti:["골프","쿠퍼","벨로스터 N"]},4:{rec:["싼타페","쏘렌토","EV6"],anti:["A4","아테온","CLA"]},5:{rec:["팰리세이드","GV60","트래버스"],anti:["4시리즈","머스탱","ES"]},6:{rec:["EV9","아이오닉9","아이오닉5 N"],anti:["7시리즈","S클래스","718"]}},
+ FVNR:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["맥스크루즈","XM3","셀토스"],anti:["SM6","K3","말리부"]},3:{rec:["렉스턴 스포츠","EV3","니로"],anti:["K5","벨로스터 N","아반떼 N"]},4:{rec:["렉스턴","EV6","RAV4"],anti:["A4","CLA","K9"]},5:{rec:["트래버스","GV60","팰리세이드"],anti:["C클래스","ES","4시리즈"]},6:{rec:["EV9","아이오닉5 N","디스커버리"],anti:["G80","A6","E클래스"]}},
+ FBSM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["맥스크루즈","티볼리","셀토스"],anti:["SM6","말리부","캐스퍼 일렉트릭"]},3:{rec:["투싼","스포티지","토레스"],anti:["프리우스","골프","쿠퍼"]},4:{rec:["싼타페","쏘렌토","카니발"],anti:["모델3","아이오닉6","A4"]},5:{rec:["팰리세이드","모하비","XC60"],anti:["머스탱","4시리즈","ES"]},6:{rec:["타호","카니발 하이브리드","GV80"],anti:["718","7시리즈","S클래스"]}},
+ FBSR:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["맥스크루즈","QM6","코란도"],anti:["SM6","말리부","캐스퍼 일렉트릭"]},3:{rec:["티구안","렉스턴 스포츠","3008"],anti:["K5","프리우스","니로"]},4:{rec:["렉스턴","RAV4","콜로라도"],anti:["아이오닉6","모델3","K8"]},5:{rec:["XC60","트래버스","모하비"],anti:["C클래스","머스탱","ES"]},6:{rec:["디스커버리","타호","RX"],anti:["G80","A6","5시리즈"]}},
+ FBNM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["셀토스","맥스크루즈","XM3"],anti:["SM6","말리부","K3"]},3:{rec:["스포티지","투싼","토레스"],anti:["벨로스터 N","아반떼 N","스팅어"]},4:{rec:["EV6","스타리아","싼타페"],anti:["A4","K9","CLA"]},5:{rec:["팰리세이드","GV60","XC60"],anti:["머스탱","C클래스","4시리즈"]},6:{rec:["EV9","카니발 하이브리드","GV80"],anti:["G90","7시리즈","S클래스"]}},
+ FBNR:{1:{rec:["스파크","모닝"],anti:[]},2:{rec:["맥스크루즈","XM3","베뉴"],anti:["K3","SM6","아반떼"]},3:{rec:["티구안","3008","스포티지"],anti:["K5","쏘나타","벨로스터 N"]},4:{rec:["렉스턴","RAV4","모델Y"],anti:["K8","그랜저","A4"]},5:{rec:["GV60","XC60","랭글러"],anti:["C클래스","ES","머스탱"]},6:{rec:["디스커버리","카이엔","EV9"],anti:["G80","A6","E클래스"]}},
+ DVSM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["레이","캐스퍼","K3"],anti:["코나","트레일블레이저","QM6"]},3:{rec:["쏘나타","K5","토레스"],anti:["티구안","3008","코나 일렉트릭"]},4:{rec:["그랜저","싼타페","쏘렌토"],anti:["모델Y","A4","컨트리맨"]},5:{rec:["팰리세이드","C클래스","4시리즈"],anti:["Q5","XC60","GLB"]},6:{rec:["G80","5시리즈","GV80 쿠페"],anti:["RX","XC90","디스커버리"]}},
+ DVSR:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["레이","캐스퍼","맥스크루즈"],anti:["코나","트레일블레이저","QM6"]},3:{rec:["벨로스터 N","아반떼 N","스팅어"],anti:["티구안","코나 일렉트릭","토레스 EVX"]},4:{rec:["G70","렉스턴","콜로라도"],anti:["모델Y","스타리아","A4"]},5:{rec:["4시리즈","머스탱","랭글러"],anti:["Q5","GLB","ES"]},6:{rec:["718","911","카이엔"],anti:["X5","GLC","GV70"]}},
+ DVNM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["캐스퍼","레이","XM3"],anti:["맥스크루즈","QM6","코란도"]},3:{rec:["K5","토레스","쏘나타"],anti:["티구안","3008","캠리"]},4:{rec:["EV6","모델3","3시리즈"],anti:["A4","렉스턴","콜로라도"]},5:{rec:["팰리세이드","GV60","4시리즈"],anti:["Q5","XC60","GLB"]},6:{rec:["아이오닉5 N","GV80 쿠페","5시리즈"],anti:["RX","XC90","디스커버리"]}},
+ DVNR:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["캐스퍼","XM3","캐스퍼 일렉트릭"],anti:["QM6","티볼리","SM6"]},3:{rec:["벨로스터 N","아반떼 N","스팅어"],anti:["티구안","투싼","이쿼녹스"]},4:{rec:["모델3","EV6","G70"],anti:["싼타페","쏘렌토","카니발"]},5:{rec:["4시리즈","머스탱","랭글러"],anti:["Q5","GLB","ES"]},6:{rec:["아이오닉5 N","718","911"],anti:["X5","GLC","GV70"]}},
+ DBSM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["레이","캐스퍼","K3"],anti:["코나","트레일블레이저","QM6"]},3:{rec:["K5","벨로스터 N","아반떼 N"],anti:["니로","코나 일렉트릭","렉스턴 스포츠"]},4:{rec:["3시리즈","G70","그랜저"],anti:["모델Y","스타리아","아이오닉5"]},5:{rec:["4시리즈","팰리세이드","C클래스"],anti:["트래버스","Q5","GLB"]},6:{rec:["5시리즈","718","911"],anti:["아이오닉9","EV9","X5"]}},
+ DBSR:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["맥스크루즈","레이","캐스퍼"],anti:["코나","트레일블레이저","QM6"]},3:{rec:["벨로스터 N","아반떼 N","스팅어"],anti:["니로","코나 일렉트릭","EV3"]},4:{rec:["아테온","G70","3시리즈"],anti:["스타리아","아이오닉5","싼타페"]},5:{rec:["4시리즈","머스탱","랭글러"],anti:["팰리세이드","Q5","GLB"]},6:{rec:["718","911","카이엔"],anti:["아이오닉9","GV70","카니발 하이브리드"]}},
+ DBNM:{1:{rec:["모닝","스파크"],anti:[]},2:{rec:["캐스퍼","XM3","캐스퍼 일렉트릭"],anti:["QM6","코란도","맥스크루즈"]},3:{rec:["벨로스터 N","아반떼 N","스팅어"],anti:["렉스턴 스포츠","이쿼녹스","3008"]},4:{rec:["모델3","3시리즈","G70"],anti:["렉스턴","콜로라도","스타리아"]},5:{rec:["4시리즈","GV60","머스탱"],anti:["트래버스","모하비","Q5"]},6:{rec:["718","911","GV80 쿠페"],anti:["X5","GLC","RX"]}},
+ DBNR:{1:{rec:["스파크","모닝"],anti:[]},2:{rec:["XM3","캐스퍼 일렉트릭","캐스퍼"],anti:["티볼리","QM6","K3"]},3:{rec:["골프","쿠퍼","벨로스터 N"],anti:["투싼","이쿼녹스","쏘나타"]},4:{rec:["아테온","모델3","G70"],anti:["싼타페","쏘렌토","카니발"]},5:{rec:["4시리즈","머스탱","랭글러"],anti:["팰리세이드","모하비","Q5"]},6:{rec:["718","911","카이엔"],anti:["G80","GV70","카니발 하이브리드"]}}
+};
+const ALTPOOL={
+ FVSM:{d:["티볼리","셀토스","투싼","토레스","스포티지","싼타페","쏘렌토","카니발","팰리세이드","레이","맥스크루즈","쏘나타"],i:["RAV4","CR-V","3008","티구안","Q5","XC60","RX","XC90"]},
+ FVSR:{d:["맥스크루즈","렉스턴 스포츠","렉스턴","트래버스","타호","티볼리","셀토스","QM6","코란도","투싼","토레스","스포티지"],i:["RAV4","디스커버리","3008","CR-V","XC60","랭글러","RX","XC90"]},
+ FVNM:{d:["셀토스","토레스","스포티지","팰리세이드","EV3","EV9","아이오닉9","티볼리","XM3","니로","투싼","싼타페"],i:["RAV4","CR-V","모델Y","3008","티구안","모델3","Q5","XC60"]},
+ FVNR:{d:["EV9","아이오닉5 N","맥스크루즈","렉스턴 스포츠","EV3","렉스턴","트래버스","GV60","타호","아이오닉9","XM3","셀토스"],i:["디스커버리","RAV4","랭글러","카이엔","3008","모델Y","XC60","RX"]},
+ FBSM:{d:["팰리세이드","투싼","스포티지","싼타페","쏘렌토","카니발","타호","맥스크루즈","그랜저","모하비","카니발 하이브리드","GV80"],i:["RAV4","CR-V","XC60","RX","XC90","디스커버리","GLE","티구안"]},
+ FBSR:{d:["타호","렉스턴","트래버스","맥스크루즈","모하비","콜로라도","팰리세이드","GV60","EV9","GV80 쿠페","렉스턴 스포츠","카니발 하이브리드"],i:["디스커버리","XC60","RX","XC90","카이엔","GLE","RAV4","랭글러"]},
+ FBNM:{d:["팰리세이드","GV60","EV9","스포티지","카니발 하이브리드","GV80","GV80 쿠페","아이오닉5 N","아이오닉9","EV6","타호","셀토스"],i:["XC60","RX","XC90","디스커버리","GLE","티구안","RAV4","CR-V"]},
+ FBNR:{d:["GV60","EV9","타호","GV80 쿠페","아이오닉5 N","렉스턴","트래버스","팰리세이드","모하비","카니발 하이브리드","GV80","아이오닉9"],i:["디스커버리","카이엔","XC60","RX","XC90","GLE","랭글러","마칸"]},
+ DVSM:{d:["모닝","레이","캐스퍼","K3","아반떼","쏘나타","K5","티볼리","셀토스","토레스","스파크","말리부"],i:["3시리즈","5시리즈","C클래스","4시리즈","머스탱","A6","E클래스","718"]},
+ DVSR:{d:["모닝","벨로스터 N","아반떼 N","스팅어","레이","캐스퍼","스파크","맥스크루즈","K3","말리부","아반떼","쏘나타"],i:["4시리즈","머스탱","718","911","골프","쿠퍼","랭글러","카이엔"]},
+ DVNM:{d:["캐스퍼","모닝","레이","XM3","셀토스","캐스퍼 일렉트릭","K5","토레스","EV6","아이오닉5 N","베뉴","K3"],i:["모델3","3시리즈","5시리즈","4시리즈","머스탱","718","911","골프"]},
+ DVNR:{d:["아이오닉5 N","벨로스터 N","아반떼 N","스팅어","캐스퍼","XM3","캐스퍼 일렉트릭","EV6","GV80 쿠페","베뉴","말리부","EV3"],i:["모델3","4시리즈","머스탱","718","911","골프","쿠퍼","랭글러"]},
+ DBSM:{d:["모닝","K5","벨로스터 N","아반떼 N","스팅어","G70","그랜저","G80","레이","캐스퍼","팰리세이드","GV80 쿠페"],i:["3시리즈","4시리즈","5시리즈","718","911","아테온","C클래스","머스탱"]},
+ DBSR:{d:["벨로스터 N","아반떼 N","스팅어","G70","GV80 쿠페","타호","K9","G90","렉스턴","콜로라도","트래버스","GV60"],i:["4시리즈","718","911","카이엔","아테온","머스탱","골프","쿠퍼"]},
+ DBNM:{d:["GV80 쿠페","아이오닉5 N","벨로스터 N","아반떼 N","스팅어","G70","EV6","GV60","캐스퍼","K5","팰리세이드","XM3"],i:["4시리즈","718","911","모델3","3시리즈","5시리즈","아테온","머스탱"]},
+ DBNR:{d:["GV80 쿠페","아이오닉5 N","벨로스터 N","아반떼 N","스팅어","G70","GV60","EV6","EV9","타호","K9","G90"],i:["4시리즈","718","911","카이엔","아테온","머스탱","골프","쿠퍼"]}
+};
+const SCOREW=[
+ {a:{FD:2,VB:1},b:{FD:-2,VB:-1}},
+ {a:{VB:2,FD:-1},b:{VB:-2,FD:1}},
+ {a:{SN:2,MR:1},b:{SN:-2,MR:-1}},
+ {a:{MR:2,SN:-1},b:{MR:-2,SN:1}},
+ {a:{FD:2},b:{FD:-2}},
+ {a:{VB:2},b:{VB:-2}},
+ {a:{SN:2},b:{SN:-2}},
+ {a:{MR:2},b:{MR:-2}}
+];
+function score(){var s={FD:0,VB:0,SN:0,MR:0};ans.forEach(function(c,i){var w=SCOREW[i][c];for(var ax in w)s[ax]+=w[ax];});return (s.FD>=0?'F':'D')+(s.VB>=0?'V':'B')+(s.SN>=0?'S':'N')+(s.MR>=0?'M':'R');}
+var CUR='', CUR_B=4;
+var BANDS=[[1,'1천만↓'],[2,'1~2천'],[3,'2~3천'],[4,'3~4천'],[5,'4~5천'],[6,'5천↑']];
+function mcard(m,bad){var c=CARDB[m];if(!c)return '';
+ var price='<span style="color:#0F6E56;font-weight:600;font-size:12px">'+c.pr.toLocaleString()+'만원~</span>';
+ var body=bad
+  ?'<div style="margin-top:1px">'+price+'</div>'+(c.c?'<div style="font-size:12px;color:#9c6b5e;line-height:1.4;margin-top:3px">"'+c.c+'"</div>':'<div style="font-size:11px;color:#b9b7b0;margin-top:2px">· 나랑은 좀…</div>')
+  :'<div style="margin-top:1px">'+price+'</div>'+(c.r?'<div style="font-size:12px;color:#5F5E5A;line-height:1.45;margin-top:3px;min-height:4.35em;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden">"'+c.r+'"</div>':'');
+ return '<div class="lcard'+(bad?'':' rec')+'"'+(bad?' style="opacity:.92"':'')+'><img class="thumb" src="'+(c.p||CARSAMPLES[0])+'" loading="lazy" onerror="this.onerror=null;this.src=CARSAMPLES[0]" alt="'+c.n+'"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">'+c.n+' <span style="color:#b9b7b0;font-weight:400;font-size:11px">'+c.b+'</span></div>'+body+'</div></div>';
+}
+function budgetBox(){var d=(REC[CUR]||{})[CUR_B]||{rec:[],anti:[]};
+ return '<div style="display:flex;gap:5px;margin:6px 0 12px">'+BANDS.map(function(x){return '<button onclick="setBudget('+x[0]+')" style="flex:1;min-width:0;padding:8px 2px;border:2px solid '+(x[0]===CUR_B?'#5FA218':'#F0D0E2')+';background:'+(x[0]===CUR_B?'#C7EE7E':'#fff')+';color:'+(x[0]===CUR_B?'#34600d':'#a584a5')+';font-size:13px;font-weight:700;cursor:pointer;font-family:var(--jua);border-radius:0;box-shadow:'+(x[0]===CUR_B?'1px 1px 2px rgba(52,99,13,.30)':'2px 2px 3px rgba(120,50,90,.22)')+'">'+x[1]+'</button>';}).join('')+'</div>'
+ +'<div class="sec">💚 나랑 잘 맞는 추천 모델</div>'+(d.rec.map(function(m){return mcard(m,false);}).join('')||'<p class="sub" style="font-size:12px">이 예산대 추천 준비 중</p>')
+ +(d.anti.length?'<div class="sec">🙅 이건 좀 비추천</div>'+d.anti.map(function(m){return mcard(m,true);}).join(''):'');
+}
+function setBudget(b){CUR_B=b;track('budget',{band:b,code:CUR});var el=document.getElementById('carfit');if(el)el.innerHTML=budgetBox();}
+const DESC={
+ FVSM:"국민 가장은 나보다 식구가 먼저다. 튀는 걸 바라지 않고, 모두가 편한 무난함을 택한다. 큰 욕심 없이 안정적인 게 제일이라 믿는다. 검증된 길, 많이들 가는 길이 결국 옳다고 생각한다. 차도 사람도 '믿을 만한가'를 먼저 본다. 장점은 어떤 상황에서도 흔들리지 않는 든든함이다. 단점은 가끔 자기 자신을 뒤로 미룬다는 것. 화려함은 없어도 곁에 있으면 안심되는 사람이다. 요란한 약속보다 매일의 책임으로 증명한다. 평범함이 사실 제일 어렵다는 걸, 이 사람은 안다.",
+ FVSR:"숨은 대형 헌터는 남들이 모르는 가치를 알아본다. 비싸지 않아도 크고 든든한 것에서 만족을 찾는다. 유행을 좇지 않고, 자기만의 기준으로 고른다. 가족을 다 태우고도 남는 공간에 마음이 놓인다. 남들이 '그걸 왜?' 해도 흔들리지 않는다. 장점은 실속과 안목을 동시에 갖췄다는 것. 단점은 그 진가를 알아주는 사람이 적어 외로울 때가 있다는 것. 검증된 큰 차 한 대에 오래 정 붙이는 사람이다. 요란하지 않게, 그러나 확실하게 자기 세계를 챙긴다. 알아주는 이 없어도, 본인은 이미 만족한다.",
+ FVNM:"실속 얼리어답터는 새것에 끌리면서도 지갑은 챙긴다. 신상 정보는 누구보다 빠삭하지만, 결정은 신중하다. 옵션표를 밤새 비교하고, 가성비의 최적점을 찾는다. 가족이 편하게 쓸 수 있는지를 늘 먼저 따진다. 충동을 이성으로 누르는 데 익숙하다. 장점은 트렌드와 실용을 동시에 잡는 균형 감각. 단점은 너무 재다가 타이밍을 놓치기도 한다는 것. 결국 가장 무난하고 똑똑한 선택에 안착한다. 화려한 신문물보다 똑부러진 실속을 택하는 사람. 그 선택엔 늘 이유가 있다.",
+ FVNR:"가성비 개척자는 남들보다 한발 먼저 새 길을 간다. 전기차든 신생 브랜드든, 검증보다 가능성을 본다. 다만 비싼 건 못 참는다 — 신문물도 가성비여야 한다. 모험심은 있지만 지갑은 철저히 현실적이다. 장점은 변화를 두려워하지 않는 개척 정신. 단점은 앞서가다 보니 알아주는 동료가 적다는 것. 남들이 망설일 때 먼저 손드는 용기가 있다. 실용과 새로움 사이에서 자기만의 답을 찾는다. 비주류라도 똑똑한 선택이면 당당하다. 결국 시대가 그를 따라오는 경우가 많다.",
+ FBSM:"검증된 회장님은 격(格)을 안다. 무리하지 않되, 급은 절대 양보하지 않는다. 검증된 프리미엄만이 마음을 놓이게 한다. 가족 앞에서 어깨가 펴지는 차, 그게 자존심이다. 새것보다 믿을 만한 명품을 택한다. 장점은 안정감과 품위를 함께 갖췄다는 것. 단점은 남의 시선을 은근히 의식한다는 것. 주차장에서 가장 당당한 사람이 바로 이 사람이다. 요란한 신상 대신 검증된 클래스를 두른다. 보여주기 위해서가 아니라, 스스로 떳떳하기 위해서다.",
+ FBSR:"정통 대장은 로망을 현실로 끌고 온다. 흔한 프리미엄은 시시하고, 검증된 희귀템에 끌린다. SUV 한 대에 캠핑과 오프로드의 꿈을 싣는다. 남들 다 타는 건 재미없다고 생각한다. 장점은 묵직한 취향과 흔들리지 않는 신념. 단점은 유지비도 로망값이라며 합리화한다는 것. 거친 길도 두렵지 않은 든든함이 있다. 가족을 지키는 단단한 요새 같은 차를 원한다. 검증됐으면서 희소한, 그 둘 다를 포기 못 한다. 겉은 투박해도 속엔 낭만이 가득하다.",
+ FBNM:"프리미엄 트렌드세터는 최신과 최고를 동시에 원한다. 신상 패밀리카는 다 그의 레이더 안에 있다. 가족도, 자기 자신도 좋은 걸 누려야 한다고 믿는다. 할부를 안고서라도 트렌드의 맨 앞에 선다. 장점은 시대의 흐름을 빠르게 읽는 감각. 단점은 욕심이 지갑보다 한발 앞선다는 것. 남들이 따라 사기 시작하면 이미 다음을 본다. 좋은 건 함께 누리자는 통 큰 마음이 있다. 패밀리카에도 멋과 신문물을 포기하지 않는다. 그에게 평범은 선택지에 없다.",
+ FBNR:"장비병 끝판왕은 필요보다 로망으로 산다. 가족용이라 우기지만, 사실 본인이 제일 신났다. 루프탑 텐트, 드론, 최신 옵션까지 다 갖춰야 직성이 풀린다. 희귀하고 새롭고 비싼 것에 약하다. 장점은 무엇이든 끝까지 파고드는 열정. 단점은 그 열정이 종종 통장을 비운다는 것. 남들 안 가진 걸 가졌을 때 가장 행복하다. 가족이라는 명분과 자기 취향이 절묘하게 겹친다. 장비가 늘수록 삶이 풍요롭다 믿는 사람. 끝판왕이라는 말이 아깝지 않다.",
+ DVSM:"가성비 드라이버는 돈은 없어도 운전엔 진심이다. 화려한 차 말고, 잘 굴러가고 모는 맛 있는 차를 원한다. 검증된 국민차로도 충분히 즐길 줄 안다. 코너 하나, 가속 한 번에 진심으로 설렌다. 장점은 적은 비용으로 최대의 재미를 뽑는 실력. 단점은 가끔 차에 쓰는 마음이 월급보다 앞선다는 것. 남들이 무난하다 부르는 차도 그의 손에선 펀카가 된다. 비싸지 않아도 운전의 본질을 아는 사람이다. 실속과 즐거움, 둘 다 놓치지 않는다. 핸들을 잡는 순간이 하루의 낙이다.",
+ DVSR:"추억의 낭만러는 효율보다 감성에 투자한다. 남들 안 타는 올드카와 머슬카의 낭만을 안다. 비싸진 않아도 가슴 뛰는 소리에 지갑을 연다. 우렁찬 배기음 하나면 하루가 행복하다. 장점은 자기만의 취향을 끝까지 지키는 뚝심. 단점은 감성에 쓴 돈만큼 정비소에도 쓴다는 것. 남들의 '왜 그런 차를'이라는 말엔 미소만 짓는다. 추억과 낭만을 굴러가게 만드는 사람이다. 신상보다 사연 있는 차에 마음이 간다. 손해 보는 듯해도, 마음은 늘 부자다.",
+ DVNM:"영리한 신상러는 새 차를 제일 똑똑하게 산다. 남들 다 아는 신차를, 남들보다 싸게 손에 넣는다. 정보를 모으고 타이밍을 재는 데 능하다. 신기술은 즐기되, 비용은 철저히 따진다. 장점은 트렌드와 합리성을 동시에 잡는 머리. 단점은 가끔 너무 계산적이라는 말을 듣는다는 것. 충동구매란 그의 사전에 없다. 새것의 설렘과 가성비의 안도를 함께 누린다. 똑똑하게 즐기는 게 진짜 잘 사는 거라 믿는다. 결국 가장 영리한 선택지에 도착한다.",
+ DVNR:"펀카 발굴러는 남들이 안 보는 차를 발굴한다. 베스트셀러는 시시하고, 숨은 펀카에 설렌다. 비싸지 않아도 개성 있고 재밌으면 그만이다. 청개구리처럼 다수의 반대편에서 즐거움을 찾는다. 장점은 누구도 흉내 못 낼 독창적인 취향. 단점은 그 취향을 알아주는 사람이 드물다는 것. 남들과 똑같은 건 죽어도 싫다. 발굴의 재미가 운전의 재미만큼 크다. 비주류라는 말이 그에겐 칭찬이다. 자기만의 펀카로 자기만의 길을 간다.",
+ DBSM:"독삼사 정석은 엠블럼이 곧 자존심이다. 무리해서라도 검증된 프리미엄을 손에 쥔다. 운전의 재미와 브랜드의 격, 둘 다 포기 못 한다. 남들이 인정하는 정석의 길을 정확히 밟는다. 장점은 흔들림 없는 기준과 확실한 안목. 단점은 엠블럼이 없으면 잠이 안 온다는 것. 검증된 베스트셀러 프리미엄이 가장 마음 편하다. 과하지도 모자라지도 않은 정석을 추구한다. 남들의 부러움이 은근한 동력이 된다. 정석이라 불리는 데엔 다 이유가 있다.",
+ DBSR:"슈퍼리치 코스프레는 조용히 럭셔리를 즐긴다. 요란하게 자랑하진 않지만, 급은 절대 낮추지 않는다. 흔한 프리미엄 말고 희귀한 명차에 끌린다. 겉은 여유로운 사장님, 속은 60개월 할부의 낭만. 장점은 남다른 안목과 묵직한 취향. 단점은 형편보다 격을 앞세울 때가 있다는 것. 남들 모르는 희귀템을 조용히 즐기는 멋이 있다. 과시 대신 만족, 그게 그의 방식이다. 검증된 럭셔리의 희소함에 기꺼이 투자한다. 보여주려 사는 게 아니라, 스스로 누리려 산다.",
+ DBNM:"신기술 추종자는 미래를 먼저 산다. 전기와 자율주행, OTA까지 새 기술이라면 가슴이 뛴다. 프리미엄 신문물의 맨 앞 줄에 서고 싶다. 검증보다 얼마나 새로운가가 더 중요하다. 장점은 변화를 즐기고 빠르게 적응하는 유연함. 단점은 신상이 나오면 또 흔들린다는 것. 업데이트 알림 하나에 누구보다 설렌다. 남들이 망설이는 신기술을 먼저 경험한다. 최신 프리미엄을 누리는 게 그의 행복이다. 그에게 차는 가전이자, 미래의 장난감이다.",
+ DBNR:"희소템 끝판왕은 남들과 같은 건 못 견딘다. 흔한 차? 그럴 거면 차라리 안 산다. 프리미엄에 희소성, 거기에 최신까지 다 원한다. 정면에서 풍기는 아우라가 곧 자기 자신이다. 장점은 누구도 따라올 수 없는 독보적 취향. 단점은 그 취향을 채우는 데 끝이 없다는 것. 남들 시선보다 자기 만족이 먼저다. 희귀하고 비싸고 새로운, 그 정점을 좇는다. 평범을 거부하는 게 그의 정체성이다. 끝판왕이라는 자리는 아무나 앉지 못한다."
+};
+const CELEB={
+ FVSM:['차인표','션'],FVSR:['박명수','김생민'],FVNM:['유재석','안정환'],FVNR:['노홍철','곽튜브'],
+ FBSM:['백종원','이덕화'],FBSR:['김병만','류수영'],FBNM:['하하','김희철'],FBNR:['김대호','성시경'],
+ DVSM:['이상민','데프콘'],DVSR:['윤도현','김경호'],DVNM:['장성규','타일러'],DVNR:['딘딘','피오'],
+ DBSM:['차승원','정우성'],DBSR:['탁재훈','붐'],DBNM:['슈카','침착맨'],DBNR:['지드래곤','박재범']
+};
+var DOMSET=['현대','기아','제네시스','쉐보레','KG모빌리티','르노코리아'];
+function result(){
+ app.className='app fade';
+ const code=score(),d=T[code],rare=code[3]==='R',good=T[flip0(code)],foe=T[flipAll(code)];
+ CUR=code;CUR_B=4;
+ app.innerHTML=
+ '<button class="gbtn" style="width:34%;margin:0 0 12px auto;padding:11px;font-size:14px;background:#A6E04E;color:#2f5208;border-bottom:5px dashed #5FA218" onclick="share()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M12 4V15"/><path d="M8 8l4-4 4 4"/><path d="M8 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-2"/></svg>공유하기</button>'
+ +'<div class="heroCard" style="position:relative;border-radius:16px;overflow:hidden;border:.5px solid #e3e1da;margin-bottom:14px">'+charSVG(code)+'<span class="twk" style="top:9px;left:14px;font-size:19px">✨</span><span class="twk" style="top:16px;right:16px;font-size:14px;animation-delay:.5s">⭐</span><span class="twk" style="bottom:14px;left:26px;font-size:13px;animation-delay:.9s">✨</span><span class="twk" style="bottom:20px;right:22px;font-size:16px;animation-delay:1.2s">💫</span></div>'
+ +'<div style="text-align:center"><span class="badge" style="font-size:12.1px">나의 차BTI</span>'
+ +'<h1 style="margin:9px 0 3px"><span class="namepop">'+d.n+'</span></h1><p class="sub">"'+d.t+'"</p></div>'
+ +'<div class="statstrip">'
+   +'<div class="stat" style="animation-delay:.05s"><div class="statTop">'+(rare?'🔥 희귀도':'👑 성향')+'</div><div class="statVal">'+(rare?'상위 6%':'대중 인기형')+'</div></div>'
+   +'<div class="stat" style="animation-delay:.18s"><div class="statTop">💚 환상조합</div><div class="statVal">'+good.n+'</div></div>'
+   +'<div class="stat" style="animation-delay:.31s"><div class="statTop">💢 상극주의</div><div class="statVal">'+foe.n+'</div></div>'
+ +'</div>'
+ +'<div style="background:#FFE9F2;border:2px solid #FBC8DE;padding:13px 15px;margin:15px 0;display:flex;gap:9px;align-items:center"><span style="font-size:18px">🔥</span><span style="font-size:16px;font-weight:700;font-family:var(--jua);color:#a32e63;line-height:1.5">'+d.s+'</span></div>'
+ +'<div style="font-size:14px;line-height:1.9;color:#33312c;margin:4px 2px 8px;letter-spacing:-0.2px">'+(DESC[code]||'')+'</div>'
+ +'<div class="sec">🌟 이 유형의 대표 유명인사</div>'
+ +'<div style="display:flex;gap:8px;margin-bottom:4px">'+(CELEB[code]||[]).map(function(nm){return '<span style="background:repeating-linear-gradient(30deg,#FFD7E8 0,#FFD7E8 6px,#FFC0DD 6px,#FFC0DD 12px);color:#9c2a64;font-size:16px;font-weight:700;padding:5px 16px;border:2px solid #F2A6C6;font-family:var(--jua)">'+nm+'</span>';}).join('')+'</div>'
+ +'<div class="sec">💸 예산별 추천 모델</div><div id="carfit">'+budgetBox()+'</div>'
+ +'<div class="sec">💞 차BTI 조합</div>'
+ +'<div style="display:flex;gap:8px;margin-bottom:18px">'
+ +'<div style="flex:1;background:#E1F5EE;padding:10px;text-align:center"><div style="font-size:11px;color:#0F6E56;margin-bottom:7px">잘 맞는 유형 💚</div><div class="flo" style="overflow:hidden;margin-bottom:7px">'+charSVG(flip0(code)).replace('viewBox="0 0 320 230"','viewBox="0 34 320 196"')+'</div><div style="font-size:14px;font-weight:700;color:#085041;font-family:var(--jua)">'+good.n+'</div><div style="font-size:11px;color:#2f7a52;line-height:1.35;margin:3px 2px 0">"'+good.s+'"</div><div style="font-size:11px;color:#5ba384;margin-top:4px">🚗 '+good.g[0]+'</div></div>'
+ +'<div style="flex:1;background:#FAECE7;padding:10px;text-align:center"><div style="font-size:11px;color:#993C1D;margin-bottom:7px">상극 유형 💢</div><div class="flo" style="overflow:hidden;margin-bottom:7px;animation-delay:1.2s">'+charSVG(flipAll(code)).replace('viewBox="0 0 320 230"','viewBox="0 34 320 196"')+'</div><div style="font-size:14px;font-weight:700;color:#712B13;font-family:var(--jua)">'+foe.n+'</div><div style="font-size:11px;color:#a8466a;line-height:1.35;margin:3px 2px 0">"'+foe.s+'"</div><div style="font-size:11px;color:#b06a86;margin-top:4px">🚗 '+foe.g[0]+'</div></div>'
+ +'</div>'
+ +'<div style="height:14px"></div>'
+ +'<button class="gbtn" style="margin:0 0 9px;background:#A6E04E;color:#2f5208;border-bottom:5px dashed #5FA218" onclick="share()"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><path d="M12 4V15"/><path d="M8 8l4-4 4 4"/><path d="M8 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-2"/></svg>친구에게 공유하기</button>'
+ +'<button class="gbtn" style="margin:0 0 9px;background:#E7DBF7;color:#7B4FB5;border-bottom:5px dashed #B89AE0" onclick="track(\'click\',{text:\'결과_모든유형보기\',code:CUR});allTypes()">📖 16가지 모든 유형 보기</button>'
+ +'<button class="gbtn" style="background:none;border:none;color:var(--mut);text-decoration:underline" onclick="track(\'click\',{text:\'결과_다시하기\',code:CUR});landing()">🔁 다시하기</button>';
+ window.scrollTo(0,0);confetti(30);
+}
+function allTypes(){
+ app.className='app fade';
+ var h='<button class="gbtn" style="width:auto;font-size:13px;padding:8px 13px;margin-bottom:14px" onclick="ans.length===8?result():landing()">← 돌아가기</button>';
+ h+='<h1 style="font-size:22px;margin:0 0 4px">16가지 차BTI 유형</h1><p class="sub" style="margin:0 0 18px">나는 어디쯤, 친구는 어디쯤?</p>';
+ Object.keys(T).forEach(function(c){var d=T[c];var rare=c[3]==='R';
+  h+='<div style="display:flex;gap:12px;border:.5px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px">'
+   +'<div style="width:94px;flex-shrink:0;border-radius:10px;overflow:hidden;align-self:flex-start">'+charSVG(c)+'</div>'
+   +'<div style="flex:1;min-width:0">'
+   +'<div style="font-size:16px;font-weight:600">'+d.n+(rare?' <span style="font-size:10px;background:#FAEEDA;color:#854F0B;padding:1px 6px;border-radius:20px;font-weight:500;vertical-align:middle">희소</span>':'')+'</div>'
+   +'<div style="font-size:12px;color:var(--mut)">"'+d.t+'"</div>'
+   +'<div style="font-size:13px;margin-top:7px;line-height:1.45">🔥 '+d.s+'</div>'
+   +'<div style="font-size:12px;color:var(--mut);margin-top:7px">🚗 잘 맞는 차 · '+d.g.join(' · ')+'</div>'
+   +'<div style="font-size:12px;color:var(--mut)">🙁 안 맞는 차 · '+d.b+'</div>'
+   +'</div></div>';
+ });
+ h+='<button class="cta" style="margin-top:6px" onclick="start()">나도 테스트 하기</button>';
+ app.innerHTML=h; window.scrollTo(0,0);
+}
+function share(){const code=score(),d=T[code];track('share',{code:code});const txt='나는 차BTI \''+d.n+'\'! 나랑 맞는 차 찾으러 →';const url=location.href;if(navigator.share){navigator.share({title:'차BTI',text:txt,url:url}).catch(()=>{});}else{navigator.clipboard&&navigator.clipboard.writeText(txt+' '+url);alert('링크를 복사했어요!\n'+txt);}}
+function shareInvite(){track('share',{code:'invite'});const txt='나랑 진짜 맞는 차는? 🚗 성격 8문항으로 찾는 차BTI →';const url=location.href;if(navigator.share){navigator.share({title:'차BTI · 나랑 맞는 차 찾기',text:txt,url:url}).catch(()=>{});}else{navigator.clipboard&&navigator.clipboard.writeText(txt+' '+url);alert('링크를 복사했어요!\n'+txt);}}
+landing();
+</script>
+</body>
+</html>
